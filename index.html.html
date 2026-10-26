@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H&FW_Dibrugarh_Establishment_Management_System</title>
+<!-- Custom HRMIS favicon: Assam-inspired healthcare emblem (not an official government seal) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b5ed7'/%3E%3Cpath d='M32 6 52 14v15c0 13-8 22-20 29C20 51 12 42 12 29V14Z' fill='%23fff'/%3E%3Cpath d='M28 17h8v10h10v8H36v10h-8V35H18v-8h10Z' fill='%230b5ed7'/%3E%3Cpath d='M18 48c5-1 9-4 12-9' fill='none' stroke='%2316803c' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b5ed7'/%3E%3Cpath d='M32 6 52 14v15c0 13-8 22-20 29C20 51 12 42 12 29V14Z' fill='%23fff'/%3E%3Cpath d='M28 17h8v10h10v8H36v10h-8V35H18v-8h10Z' fill='%230b5ed7'/%3E%3Cpath d='M18 48c5-1 9-4 12-9' fill='none' stroke='%2316803c' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+:root{--primary:#0b5ed7;--dark:#17324d;--light:#f4f7fb;--border:#d9e1ea;--danger:#c62828;--success:#16803c}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--light);color:#17202a}
+header{background:linear-gradient(135deg,#0b5ed7,#17324d);color:#fff;padding:22px 28px}
+header h1{margin:0;font-size:25px}header p{margin:6px 0 0;opacity:.9}
+.office-masthead{background:#fff;border:1px solid #c8d4e0;border-top:5px solid #17324d;border-radius:10px;padding:16px 20px;margin-bottom:18px;text-align:center;box-shadow:0 2px 8px #00000008}
+.office-masthead h2{margin:0 0 5px;font-size:20px;line-height:1.35;color:#17324d;letter-spacing:.15px}
+.office-masthead p{margin:3px 0;color:#35495e;font-size:13px}
+.office-masthead .department{font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.6px;color:#0b5ed7}
+.container{max-width:1500px;margin:20px auto;padding:0 18px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat-card{background:#f8fafc;border:1px solid var(--border);border-radius:9px;padding:12px;min-width:0}
+.stat-card strong,.stat-card .stat-value{display:block;font-size:24px;color:var(--primary);font-weight:800}
+.stat-card span,.stat-card .stat-label{display:block;font-size:12px;color:#536273}
+@media(max-width:700px){.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 2px 8px #0000000b}
+.card .n{font-size:28px;font-weight:700;color:var(--primary)}.card small{color:#687684}.staffing-card{cursor:pointer;border-left:4px solid #0b5ed7}.staffing-card:hover{box-shadow:0 4px 14px #00000018}
+.panel{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:18px}
+.panel h2{margin:0 0 14px;font-size:18px;color:var(--dark)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+label{font-size:12px;font-weight:700;color:#4e5d6c;display:block;margin-bottom:5px}
+input,select{width:100%;padding:9px 10px;border:1px solid #cbd5df;border-radius:7px;background:#fff}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+button{border:0;border-radius:7px;padding:9px 13px;cursor:pointer;font-weight:700}
+.primary{background:var(--primary);color:#fff}.secondary{background:#e9eef5;color:#17324d}.danger{background:#fbeaea;color:var(--danger)}
+.success{background:#e7f6ed;color:var(--success)}
+.table-wrap{overflow:auto;max-height:560px;border:1px solid var(--border);border-radius:8px}
+table{width:100%;border-collapse:collapse;min-width:1450px;background:#fff}
+th,td{padding:9px 10px;border-bottom:1px solid #e6ebf0;text-align:left;font-size:12px;vertical-align:top}
+th{background:#edf3fa;position:sticky;top:0;z-index:1;color:#17324d}
+.badge{display:inline-block;padding:3px 7px;border-radius:12px;font-size:11px;font-weight:700}
+.reg{background:#e8f1ff;color:#1455a0}.con{background:#fff1d8;color:#8a5a00}
+.vac{background:#eee;color:#666}
+.row-actions button{padding:5px 8px;font-size:11px}
+.note{font-size:12px;color:#687684}
+.modal{display:none;position:fixed;inset:0;background:#0008;align-items:center;justify-content:center;padding:20px;z-index:10}
+.modal.open{display:flex}.modal-box{background:#fff;border-radius:12px;max-width:1000px;width:100%;max-height:92vh;overflow:auto;padding:22px}
+.close{float:right;background:#eee}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cards{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+.print-heading{display:none}
+.print-signature-stamp{display:none}
+.alert-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.alert-item{border:1px solid var(--border);border-left:4px solid #e0a000;border-radius:8px;padding:10px;background:#fff}
+.alert-item strong{display:block;color:var(--dark);margin-bottom:4px}
+.alert-item small{color:#687684}
+.toolbar-note{font-size:12px;color:#687684;margin-top:8px}
+.module-nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.module-nav button{background:#e7edf5;color:#17324d}.module-nav button.active{background:#0b5ed7;color:white}
+.module-panel{display:none}.module-panel.active{display:block}.module-form{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}.module-form textarea{width:100%;min-height:38px;border:1px solid #cbd5df;border-radius:7px;padding:9px}.module-table{min-width:900px}.status-pill{display:inline-block;padding:3px 8px;border-radius:12px;background:#e9eef5;font-size:11px;font-weight:bold}
+@media(max-width:800px){.module-form{grid-template-columns:1fr 1fr}}@media(max-width:520px){.module-form{grid-template-columns:1fr}}
+input:focus,select:focus{outline:2px solid #9dc2ff;outline-offset:1px}
+@media(max-width:800px){.alert-list{grid-template-columns:1fr}}
+
+.official-document-preview{display:none;background:#fff;color:#111;border:1px solid #d9e1ea;padding:18mm 18mm 15mm;margin-top:16px;font-family:"Times New Roman",serif;line-height:1.45;white-space:normal}
+.official-doc-masthead{text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:1.4;margin-bottom:14mm}
+.official-doc-masthead strong{display:block;font-size:13pt;margin-bottom:3mm}
+.official-doc-content{white-space:pre-wrap;font-family:"Times New Roman",serif;font-size:12pt;line-height:1.5}
+@page official-document-page{size:A4 portrait;margin:16mm 18mm 18mm}
+@media print{
+ body.print-official-document-only{page:official-document-page!important}
+ body.print-official-document-only header,
+ body.print-official-document-only .container > *:not(#advancedModulesRoot),
+ body.print-official-document-only #advancedModulesRoot > section:not(#module-orderdraft),
+ body.print-official-document-only #module-orderdraft > h2,
+ body.print-official-document-only #module-orderdraft > p,
+ body.print-official-document-only #module-orderdraft > .grid,
+ body.print-official-document-only #module-orderdraft > div:not(#officialDocPreview),
+ body.print-official-document-only #module-orderdraft > label,
+ body.print-official-document-only #module-orderdraft > textarea{display:none!important}
+ body.print-official-document-only #advancedModulesRoot,
+ body.print-official-document-only #module-orderdraft,
+ body.print-official-document-only #officialDocPreview{display:block!important;visibility:visible!important}
+ body.print-official-document-only #module-orderdraft{border:0!important;padding:0!important;margin:0!important}
+ body.print-official-document-only .official-document-preview{display:block!important;border:0!important;padding:0!important;margin:0!important}
+ body.print-official-document-only .official-doc-masthead{display:block!important}
+ body.print-official-document-only .official-doc-content{display:block!important}
+}
+
+@page{size:A3 landscape;margin:10mm 10mm 24mm}
+@page employee-profile-page{size:A4 portrait;margin:12mm 12mm 24mm}
+@media print{
+  /* Profile-only printing: hide every other module and print only the generated employee profile. */
+  body.print-profile-only{page:employee-profile-page!important;}
+  body.print-profile-only header,
+  body.print-profile-only .container > *:not(#advancedModulesRoot),
+  body.print-profile-only #advancedModulesRoot > section:not(#module-profile),
+  body.print-profile-only #module-profile > h2,
+  body.print-profile-only #module-profile > p,
+  body.print-profile-only #module-profile > .grid {display:none!important}
+  body.print-profile-only #advancedModulesRoot,
+  body.print-profile-only #module-profile,
+  body.print-profile-only #module-profile #profileOutput {display:block!important;visibility:visible!important}
+  body.print-profile-only #module-profile {border:0!important;padding:0!important;margin:0!important}
+  body.print-profile-only #profileOutput .panel {display:block!important;visibility:visible!important;width:auto!important;max-width:186mm!important;margin:0 auto!important;padding:6mm!important;border:1px solid #888!important;box-shadow:none!important;break-inside:avoid}
+  body.print-profile-only #profileOutput .office-masthead {display:block!important;text-align:center!important}
+  body.print-profile-only #profileOutput #employeeQr {display:block!important}
+  body.print-profile-only #profileOutput img {max-width:140px!important;max-height:140px!important}
+  html,body{background:#fff!important;color:#111!important;font-family:Arial,Helvetica,sans-serif}
+  /* Compact designation stamp follows the final report data in normal flow; minimal height helps keep it on the same final data page. */
+  .print-signature-stamp{display:block!important;position:static!important;float:none!important;width:72mm!important;max-width:100%!important;box-sizing:border-box!important;margin:0 0 0 auto!important;text-align:center!important;font-family:Arial,Helvetica,sans-serif!important;font-size:8pt!important;line-height:1.1!important;font-weight:700!important;color:#111!important;background:#fff!important;padding:0!important;border:0!important;z-index:auto!important;white-space:normal!important;break-inside:auto!important;page-break-inside:auto!important;}
+  header,.no-print,.actions,.modal,.note,#retirementAlertsPanel{display:none!important}
+  .container{max-width:none;width:100%;margin:0;padding:0}
+  .office-masthead{display:none!important}
+  .cards{display:none!important} /* Hide dashboard summary cards in print/PDF only; keep them visible in the portal */
+  .card{padding:6px;border:1px solid #bbb;border-radius:0;box-shadow:none;break-inside:avoid}
+  .card .n{font-size:16px;color:#111}
+  .card small{font-size:9px;color:#222}
+  .panel{border:0;border-radius:0;box-shadow:none;padding:0;margin:0}
+  .panel h2{font-size:14px;margin:0 0 6px;color:#111}
+  .print-heading{display:block;text-align:center;margin:0 0 10px}
+  .print-heading h1{font-size:16px;margin:0 0 3px}
+  .print-heading p{font-size:10px;margin:2px 0}
+  .table-wrap{max-height:none;overflow:visible;border:0;border-radius:0}
+  table{width:100%;min-width:0;table-layout:auto;border-collapse:collapse;font-size:8px;background:#fff}
+  thead{display:table-header-group}
+  tfoot{display:table-footer-group}
+  tr{break-inside:avoid;page-break-inside:avoid}
+  th,td{font-size:8px;padding:3px 4px;border:1px solid #888;color:#111;vertical-align:top;overflow-wrap:anywhere}
+  th{position:static;background:#e9edf2!important;color:#111;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .badge{background:transparent!important;color:#111!important;padding:0;border-radius:0;font-size:8px}
+
+  /* Dedicated staffing reports: print only the sanctioned-strength report, not the dashboard or other registers. */
+  body.print-sanctioned-only{page:sanctioned-report-page!important;}
+  body.print-sanctioned-only header{display:none!important}
+  body.print-sanctioned-only .container > *:not(.office-masthead):not(#module-sanctioned){display:none!important}
+  body.print-sanctioned-only .office-masthead{display:block!important;margin:0 0 8mm!important;border:0!important;box-shadow:none!important}
+  body.print-sanctioned-only #module-sanctioned{display:block!important;visibility:visible!important;border:0!important;padding:0!important;margin:0!important}
+  body.print-sanctioned-only #module-sanctioned .no-print,
+  body.print-sanctioned-only #module-sanctioned .filters-grid,
+  body.print-sanctioned-only #module-sanctioned #sanctionedNote{display:none!important}
+  @media print{#sanctionedNote{display:none!important}}
+  body.print-sanctioned-only #module-sanctioned h2{display:block!important;text-align:center;font-size:15px!important;margin:0 0 5mm!important}
+  body.print-sanctioned-only #module-sanctioned .table-wrap{max-height:none!important;overflow:visible!important}
+  body.print-sanctioned-only #module-sanctioned table{min-width:0!important;width:100%!important;table-layout:auto!important}
+  body.print-sanctioned-only #module-sanctioned th,
+  body.print-sanctioned-only #module-sanctioned td{font-size:8pt!important;padding:4px!important}
+  body.print-sanctioned-only #module-sanctioned .stats-grid{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:4mm!important;margin:0 0 5mm!important}
+  body.print-sanctioned-only #module-sanctioned .stat-card{border:1px solid #888!important;padding:3mm!important;box-shadow:none!important}
+  body.print-sanctioned-only #module-sanctioned .stat-value{font-size:16pt!important}
+}
+
+@page sanctioned-report-page{size:A4 landscape;margin:10mm 10mm 24mm}
+
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(135deg,#0b5ed7,#17324d)}
+.login-card{width:100%;max-width:420px;background:#fff;border-radius:16px;padding:30px;box-shadow:0 12px 40px #0003}
+.login-mark{width:62px;height:62px;margin:0 auto 14px;border-radius:16px;background:#0b5ed7;color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800}
+.login-card h1{text-align:center;margin:0 0 6px;font-size:22px;color:#17324d}
+.login-card .sub{text-align:center;color:#687684;font-size:13px;line-height:1.5;margin:0 0 22px}
+.login-card label{margin-top:12px}
+.login-card input{padding:12px}
+.login-card button{width:100%;margin-top:18px;padding:12px}
+.login-error{display:none;color:#b42318;background:#fef3f2;border:1px solid #fecdca;padding:9px;border-radius:7px;font-size:13px;margin-top:12px}
+.login-note{font-size:11px;color:#687684;line-height:1.5;margin-top:16px}
+#appShell[hidden],#loginScreen[hidden]{display:none!important}
+
+</style>
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="login-mark">+</div>
+    <h1>HRMIS Portal Login</h1>
+    <p class="sub">OFFICE OF THE ADDL. CHIEF MEDICAL &amp; HEALTH OFFICER (FW) :: DIBRUGARH<br>District: DIBRUGARH (ASSAM), PIN – 786001<br>Health and Family Welfare Department</p>
+    <form id="loginForm">
+      <label for="loginUser">User ID</label>
+      <input id="loginUser" name="username" autocomplete="username" required placeholder="Enter user ID">
+      <label for="loginPass">Password</label>
+      <input id="loginPass" name="password" type="password" autocomplete="current-password" required placeholder="Enter password">
+      <div id="loginError" class="login-error" role="alert">Incorrect User ID or password.</div>
+      <button class="primary" type="submit">Login</button>
+    </form>
+    <p class="login-note">For demonstration only: this HTML-only login is not secure authentication for confidential employee data. Use a server/database-backed login for official deployment.</p>
+  </div>
+</div>
+<div id="appShell" hidden>
+
+<header>
+  <h1>Establishment Management System</h1>
+  <p>Health and Family Welfare Department · Dibrugarh, Assam</p>
+
+  <button class="secondary no-print" onclick="openPasswordModal()" style="float:right;margin:8px 8px 0 0">Edit Password</button>
+  <button class="secondary no-print" onclick="logoutHRMIS()" style="float:right;margin:8px 8px 0 0">Lock Portal</button>
+  <button class="secondary no-print" onclick="logoutHRMIS()" style="float:right;margin-top:8px">Logout</button>
+</header>
+
+<div class="container">
+  <div class="office-masthead" aria-label="Official office and department heading">
+    <h2>OFFICE OF THE ADDL. CHIEF MEDICAL &amp; HEALTH OFFICER (FW) :: DIBRUGARH</h2>
+    <p><strong>District:</strong> DIBRUGARH (ASSAM), PIN – 786001</p>
+    <p class="department">Health and Family Welfare Department</p>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="n" id="total">0</div><small>Total Employees</small></div>
+    <div class="card"><div class="n" id="regular">0</div><small>Regular Employees</small></div>
+    <div class="card"><div class="n" id="contractual">0</div><small>Contractual Employees</small></div>
+    <div class="card"><div class="n" id="posts">0</div><small>Distinct Posts</small></div>
+    <div class="card"><div class="n" id="places">0</div><small>Posting Places</small></div>
+    <div class="card"><div class="n" id="retiringSoon">0</div><small>Retiring in Next 12 Months</small></div>
+    <div class="card"><div class="n" id="retiredThisYear">0</div><small>Retirement Dates This Year</small></div>
+    <div class="card"><div class="n" id="missingInfo">0</div><small>Records Missing Key Details</small></div>
+    <div class="card staffing-card" role="button" tabindex="0" onclick="openStaffingDashboard()" onkeydown="if(event.key==='Enter'||event.key===' ')openStaffingDashboard()"><div class="n" id="dashboardSanctioned">306</div><small>Sanctioned Posts</small></div>
+    <div class="card staffing-card" role="button" tabindex="0" onclick="openStaffingDashboard()" onkeydown="if(event.key==='Enter'||event.key===' ')openStaffingDashboard()"><div class="n" id="dashboardInPosition">0</div><small>In Position (Matched)</small></div>
+    <div class="card staffing-card" role="button" tabindex="0" onclick="openVacancyDashboard()" onkeydown="if(event.key==='Enter'||event.key===' ')openVacancyDashboard()"><div class="n" id="dashboardVacancies">0</div><small>Vacant Posts</small></div>
+  </div>
+
+  <div class="panel no-print" id="retirementAlertsPanel">
+    <h2>Retirement Alerts — Next 12 Months</h2>
+    <div id="retirementAlerts" class="alert-list"><div class="note">No upcoming retirements to display.</div></div>
+    <p class="toolbar-note">Calculated using the portal's current rule: Medical category 65 years; all other categories 60 years. Retirement is the preceding month-end for DOB on the 1st, otherwise the DOB month's end.</p>
+  </div>
+
+  <section class="panel no-print" id="advancedDashboardPanel">
+    <h2>Establishment Overview & Monthly Statistics</h2>
+    <div class="stats-grid" id="advancedDashboardStats"><div class="note">Statistics will update from the saved portal registers.</div></div>
+    <div class="grid" style="margin-top:12px">
+      <div><h3>Pending File Movement</h3><div id="dashboardPendingFiles" class="note">Loading file status…</div></div>
+      <div><h3>Priority Pending Work</h3><div id="dashboardPendingWork" class="note">Loading pending work…</div></div>
+      <div><h3>Service Book Activity This Month</h3><div id="dashboardServiceEvents" class="note">Loading service activity…</div></div>
+    </div>
+  </section>
+
+  <div class="panel no-print">
+    <h2>Search & Filter</h2>
+    <div class="grid">
+      <div><label>Search all employee fields</label><input id="search" placeholder="Name, ID, post, office, mobile..."></div>
+      <div><label>Employment Type</label><select id="type"><option value="">All</option><option>Regular</option><option>Contractual</option></select></div>
+      <div><label>Category</label><select id="category"><option value="">All</option><option>Grade IV</option><option>Grade III</option><option>Technical</option><option>Medical</option><option>Paramedical</option><option>Ministerial</option><option>Other</option></select></div>
+      <div><label>Posting Place</label><input id="place" placeholder="e.g. Dibrugarh Urban"></div>
+      <div><label>Status</label><select id="statusFilter"><option value="">All statuses</option><option>Active</option><option>On Leave</option><option>Transferred</option><option>Retired</option><option>Contract Ended</option></select></div>
+      <div><label>Attachment</label><select id="attachedFilter"><option value="">All</option><option value="Yes">Attached</option><option value="No">Not attached</option></select></div>
+      <div><label>Retirement Year</label><select id="retirementYear"><option value="">All years</option></select></div>
+      <div><label>Report Template</label><select id="reportType"><option value="register">Full employee register</option><option value="retirement12">Retirements in next 12 months</option><option value="retirementYear">Retirements this calendar year</option><option value="attached">Attached employees</option><option value="missing">Records with missing key details</option></select></div>
+      <div><label>Sort By</label><select id="sortBy"><option value="name">Employee name</option><option value="employeeId">Employee ID</option><option value="postingPlace">Current posting place</option><option value="cat">Category</option><option value="retirementDate">Retirement date</option><option value="joining">Date of joining</option></select></div>
+      <div><label>Sort Order</label><select id="sortOrder"><option value="asc">Ascending</option><option value="desc">Descending</option></select></div>
+    </div>
+    <div class="actions">
+      <button class="secondary" onclick="clearFilters()">Clear Filters</button>
+      <button class="primary" onclick="openModal()">+ Add Employee</button>
+      <button class="success" onclick="exportCSV()">Export CSV</button>
+      <button class="success" onclick="backupJSON()">Backup All Data (JSON)</button>
+      <label style="display:inline-flex;align-items:center;background:#e9eef5;padding:9px 13px;border-radius:7px;cursor:pointer">
+        Restore Backup <input type="file" id="backupFile" accept=".json,application/json" style="display:none" onchange="restoreJSON(event)">
+      </label>
+      <button class="danger" onclick="clearAllData()">Delete All Data</button>
+      <label style="display:inline-flex;align-items:center;background:#e9eef5;padding:9px 13px;border-radius:7px;cursor:pointer">
+        Import CSV <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="importCSV(event)">
+      </label>
+      <button class="secondary" onclick="window.print()">Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="print-heading">
+      <p style="font-size:10px;font-weight:700;letter-spacing:.5px">HEALTH AND FAMILY WELFARE DEPARTMENT</p>
+      <h1 style="font-size:15px">OFFICE OF THE ADDL. CHIEF MEDICAL &amp; HEALTH OFFICER (FW) :: DIBRUGARH</h1>
+      <p><strong>District:</strong> DIBRUGARH (ASSAM), PIN – 786001</p>
+      <hr style="border:0;border-top:1px solid #555;margin:6px 0">
+      <h1 id="printTitle">Employee Database</h1>
+      <p id="printMeta">Employee records</p>
+    </div>
+    <h2 id="registerHeading">Employee Database</h2>
+    <div class="note">Records are stored in this browser using local storage. For official office-wide use, connect the same interface to a central database/server.</div>
+    <br>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Sl.</th><th>Employee ID</th><th>Name</th><th>Designation/Post</th><th>Category</th><th>Employment</th>
+          <th>Date of Birth</th><th>Date of Retirement</th><th>Whether Attached</th><th>Place of Posting (if Attached)</th><th>Current Posting Place</th><th>Office/Institution</th><th>Date of Joining</th><th>Date of Present Posting</th>
+          <th>Order No.</th><th>Mobile</th><th>Status</th><th class="no-print">Action</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="module-nav no-print" aria-label="Establishment modules">
+    <button type="button" class="active" data-module="employees" onclick="showModule('employees',this)">Employee Records</button>
+    <button type="button" data-module="history" onclick="showModule('history',this)">Posting History</button>
+    <button type="button" data-module="vacancies" onclick="showModule('vacancies',this)">Vacancies</button><button type="button" data-module="sanctioned" onclick="showModule('sanctioned',this);renderSanctionedStrength()">Sanctioned Strength</button>
+    <button type="button" data-module="orders" onclick="showModule('orders',this)">Orders & Correspondence</button>
+    <button type="button" data-module="retirement" onclick="showModule('retirement',this)">Retirement Processing</button>
+    <button type="button" data-module="documents" onclick="showModule('documents',this)">Document Tracking</button>
+    <button type="button" data-module="servicebook" onclick="showModule('servicebook',this)">Service Book</button>
+    <button type="button" data-module="leave" onclick="showModule('leave',this)">Leave & Absence</button>
+    <button type="button" data-module="diary" onclick="showModule('diary',this)">Diary & Dispatch</button>
+    <button type="button" data-module="filemovement" onclick="showModule('filemovement',this)">File Movement</button>
+    <button type="button" data-module="reminders" onclick="showModule('reminders',this)">Pending Work</button>
+    <button type="button" data-module="recruitment" onclick="showModule('recruitment',this)">Recruitment</button>
+    <button type="button" data-module="transfer" onclick="showModule('transfer',this)">Transfer Planner</button>
+    <button type="button" data-module="returns" onclick="showModule('returns',this)">Monthly Return</button>
+    <button type="button" data-module="calendar" onclick="showModule('calendar',this)">Retirement Calendar</button>
+    <button type="button" data-module="forecast" onclick="showModule('forecast',this)">Retirement Forecast</button>
+    <button type="button" data-module="reports" onclick="showModule('reports',this)">Custom Reports</button>
+    <button type="button" data-module="profile" onclick="showModule('profile',this)">Employee Profile / QR</button>
+    <button type="button" data-module="orderdraft" onclick="showModule('orderdraft',this)">Draft Order Generator</button>
+    <button type="button" data-module="audit" onclick="showModule('audit',this)">Change Audit Trail</button>
+  </div>
+  <section id="module-history" class="panel module-panel">
+    <h2>Employee Posting History</h2><p class="note">Posting changes are captured automatically when an employee's current posting place, office or posting date is edited. You may also add earlier history manually.</p>
+    <form class="module-form" id="historyForm"><div><label>Employee ID *</label><input id="hEmployeeId" required list="employeeIds"></div><div><label>From Date</label><input id="hFrom" placeholder="DD/MM/YYYY"></div><div><label>To Date</label><input id="hTo" placeholder="DD/MM/YYYY"></div><div><label>Posting Place *</label><input id="hPlace" required></div><div><label>Office/Institution</label><input id="hOffice"></div><div><label>Order No.</label><input id="hOrder"></div><div><label>Remarks</label><input id="hRemarks"></div><div class="actions"><button class="primary" type="submit">Add History</button></div></form>
+    <div class="table-wrap"><table class="module-table"><thead><tr><th>Employee ID</th><th>Employee Name</th><th>From</th><th>To</th><th>Posting Place</th><th>Office</th><th>Order No.</th><th>Remarks</th><th class="no-print">Action</th></tr></thead><tbody id="historyBody"></tbody></table></div>
+  </section>
+  <section id="module-sanctioned" class="panel module-panel">
+<h2 id="sanctionedReportTitle">Institution-wise Sanctioned Strength & Vacancy Position</h2>
+<p class="muted">Sanctioned positions are loaded from SANCTIONED POST STATEMENT.xlsx (ANM sheet). In-position is calculated from Employee Records by matching Current Posting Place + Post/Designation. Review unmatched names/designations before relying on the totals.</p>
+<div class="stats-grid" id="sanctionedStats"></div>
+<div class="actions no-print"><button class="success" type="button" onclick="exportSanctionedCSV()">Export Strength Report (CSV)</button><button class="secondary" type="button" onclick="printSanctionedReport('all')">Print Full Strength Report</button><button class="primary" type="button" onclick="printSanctionedReport('inposition')">Print In-Position Report</button><button class="secondary" type="button" onclick="printSanctionedReport('vacant')">Print Vacancy Report</button></div>
+<div class="filters-grid">
+<div><label>Health Block</label><select id="sanctionBlockFilter" onchange="renderSanctionedStrength()"><option value="">All Blocks</option></select></div>
+<div><label>Institution Search</label><input id="sanctionInstitutionFilter" oninput="renderSanctionedStrength()" placeholder="Search institution"></div>
+<div><label>Post / Designation</label><select id="sanctionPostFilter" onchange="renderSanctionedStrength()"><option value="">All Posts</option></select></div>
+<div><label>Show</label><select id="sanctionViewFilter" onchange="renderSanctionedStrength()"><option value="all">All positions</option><option value="inposition">In Position only</option><option value="vacant">Vacant only</option><option value="over">In-position exceeds sanctioned</option></select></div>
+</div>
+<div class="table-wrap"><table class="module-table"><thead><tr><th>Health Block</th><th>Institution</th><th>Post / Designation</th><th>Sanctioned</th><th>In Position (Employee Records)</th><th>Vacant</th><th>Over Sanction</th><th>Sanction Order No.</th></tr></thead><tbody id="sanctionedBody"></tbody></table></div>
+<p id="sanctionedNote" class="muted"></p></section>
+<section id="module-vacancies" class="panel module-panel"><h2>Sanctioned Posts & Vacancy Register</h2>
+    <form class="module-form" id="vacancyForm"><div><label>Post/Designation *</label><input id="vPost" required></div><div><label>Category</label><input id="vCategory"></div><div><label>Office/Institution *</label><input id="vOffice" required></div><div><label>Sanctioned Posts *</label><input id="vSanctioned" type="number" min="0" required></div><div><label>In Position</label><input id="vInPosition" type="number" min="0" value="0" required></div><div><label>Vacancy Type</label><select id="vType"><option>Regular</option><option>Contractual</option><option>Both</option></select></div><div><label>As on Date</label><input id="vDate" placeholder="DD/MM/YYYY"></div><div><label>Remarks</label><input id="vRemarks"></div><div class="actions"><button class="primary" type="submit">Add Vacancy Entry</button></div></form>
+    <div class="table-wrap"><table class="module-table"><thead><tr><th>Post</th><th>Category</th><th>Office</th><th>Sanctioned</th><th>In Position</th><th>Vacant</th><th>Type</th><th>As on</th><th>Remarks</th><th class="no-print">Action</th></tr></thead><tbody id="vacancyBody"></tbody></table></div></section>
+  <section id="module-orders" class="panel module-panel"><h2>Orders & Correspondence Register</h2>
+    <form class="module-form" id="orderForm"><div><label>Order/Letter No. *</label><input id="oNumber" required></div><div><label>Date *</label><input id="oDate" placeholder="DD/MM/YYYY" required></div><div><label>Order Type</label><select id="oType"><option>Appointment</option><option>Posting/Transfer</option><option>Promotion</option><option>Retirement</option><option>Leave</option><option>Attachment</option><option>Other</option></select></div><div><label>Employee ID (if applicable)</label><input id="oEmployeeId" list="employeeIds"></div><div><label>Subject *</label><input id="oSubject" required></div><div><label>Issued To/By</label><input id="oParties"></div><div><label>File/Reference No.</label><input id="oReference"></div><div><label>Remarks/Action Required</label><input id="oRemarks"></div><div class="actions"><button class="primary" type="submit">Add Order/Letter</button></div></form>
+    <div class="table-wrap"><table class="module-table"><thead><tr><th>Order No.</th><th>Date</th><th>Type</th><th>Employee ID</th><th>Subject</th><th>Issued To/By</th><th>Reference</th><th>Remarks/Action</th><th class="no-print">Action</th></tr></thead><tbody id="orderBody"></tbody></table></div></section>
+  <section id="module-retirement" class="panel module-panel"><h2>Retirement Processing Register</h2><p class="note">Calculated retirement dates follow the configured Medical = 65 years, all other categories = 60 years rule. This register tracks administrative processing and does not change the employee's calculated date.</p>
+    <form class="module-form" id="retireForm"><div><label>Employee ID *</label><input id="rEmployeeId" required list="employeeIds"></div><div><label>Notice/Review Date</label><input id="rNoticeDate" placeholder="DD/MM/YYYY"></div><div><label>Service Book Verified?</label><select id="rService"><option>Pending</option><option>Yes</option><option>No</option></select></div><div><label>Pension Papers</label><select id="rPension"><option>Not Started</option><option>In Progress</option><option>Submitted</option><option>Completed</option><option>Not Applicable</option></select></div><div><label>Leave/No-Dues Status</label><select id="rNoDues"><option>Pending</option><option>In Progress</option><option>Completed</option><option>Not Applicable</option></select></div><div><label>Processing Status</label><select id="rStatus"><option>Not Started</option><option>In Progress</option><option>Ready for Retirement</option><option>Completed</option><option>On Hold</option></select></div><div><label>Responsible Officer/Dealing Assistant</label><input id="rOfficer"></div><div><label>Remarks</label><input id="rRemarks"></div><div class="actions"><button class="primary" type="submit">Save Processing Status</button></div></form>
+    <div class="table-wrap"><table class="module-table"><thead><tr><th>Employee ID</th><th>Name</th><th>Retirement Date</th><th>Notice/Review</th><th>Service Book</th><th>Pension Papers</th><th>No-Dues</th><th>Processing</th><th>Responsible</th><th>Remarks</th><th class="no-print">Action</th></tr></thead><tbody id="retireBody"></tbody></table></div></section>
+  <section id="module-documents" class="panel module-panel"><h2>Employee Document Tracking</h2><p class="note">Tracks document status and references; do not upload confidential scans into this browser-only register. Keep originals/scans in the approved secure office repository.</p>
+    <form class="module-form" id="documentForm"><div><label>Employee ID *</label><input id="dEmployeeId" required list="employeeIds"></div><div><label>Document Type *</label><select id="dType"><option>Service Book</option><option>Appointment Order</option><option>Joining Report</option><option>Educational Certificate</option><option>Age Proof</option><option>Caste/Category Certificate</option><option>Posting/Transfer Order</option><option>Leave Record</option><option>Pension Papers</option><option>Other</option></select></div><div><label>Document/Reference No.</label><input id="dNumber"></div><div><label>Document Date</label><input id="dDate" placeholder="DD/MM/YYYY"></div><div><label>Availability</label><select id="dAvailability"><option>Available</option><option>Not Available</option><option>Verification Pending</option><option>Expired/Update Required</option></select></div><div><label>Verified By</label><input id="dVerifiedBy"></div><div><label>Verification Date</label><input id="dVerifyDate" placeholder="DD/MM/YYYY"></div><div><label>Remarks/Storage Reference</label><input id="dRemarks"></div><div class="actions"><button class="primary" type="submit">Add Document Record</button></div></form>
+    <div class="table-wrap"><table class="module-table"><thead><tr><th>Employee ID</th><th>Name</th><th>Document Type</th><th>Document No.</th><th>Date</th><th>Availability</th><th>Verified By</th><th>Verification Date</th><th>Remarks/Storage Ref.</th><th class="no-print">Action</th></tr></thead><tbody id="documentBody"></tbody></table></div></section>
+  <div id="advancedModulesRoot"></div>
+  <datalist id="employeeIds"></datalist>
+</div>
+
+<div class="modal" id="passwordModal" role="dialog" aria-modal="true" aria-labelledby="passwordModalTitle">
+ <div class="modal-box" style="max-width:460px">
+  <button class="close" type="button" onclick="closePasswordModal()" aria-label="Close">✕</button>
+  <h2 id="passwordModalTitle">Edit Password</h2>
+  <form id="passwordForm">
+   <label for="currentPassword">Current Password</label>
+   <input id="currentPassword" type="password" autocomplete="current-password" required>
+   <label for="newPassword" style="margin-top:12px">New Password</label>
+   <input id="newPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters">
+   <label for="confirmPassword" style="margin-top:12px">Confirm New Password</label>
+   <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="Re-enter new password">
+   <div id="passwordMessage" role="alert" style="display:none;margin-top:12px;padding:10px;border-radius:7px;font-size:13px"></div>
+   <div class="actions">
+    <button class="primary" type="submit">Update Password</button>
+    <button class="secondary" type="button" onclick="closePasswordModal()">Cancel</button>
+   </div>
+  </form>
+ </div>
+</div>
+
+<div class="modal" id="modal">
+ <div class="modal-box">
+  <button class="close" onclick="closeModal()">✕</button>
+  <h2 id="modalTitle">Add Employee</h2>
+  <form id="form">
+   <input type="hidden" id="editId">
+   <div class="grid">
+    <div><label>Employee ID *</label><input id="employeeId" required></div>
+    <div><label>Name *</label><input id="name" required></div>
+    <div><label>Designation/Post *</label><input id="post" required></div>
+    <div><label>Category *</label><select id="cat" required oninput="updateRetirementDate()" onchange="updateRetirementDate()"><option value="">Select</option><option>Grade IV</option><option>Grade III</option><option>Technical</option><option>Medical</option><option>Paramedical</option><option>Ministerial</option><option>Other</option></select></div>
+    <div><label>Employment Type *</label><select id="empType" required><option>Regular</option><option>Contractual</option></select></div>
+    <div><label>Date of Birth</label><input id="dob" type="text" inputmode="numeric" placeholder="DD/MM/YYYY" maxlength="10" oninput="updateRetirementDate()" onchange="updateRetirementDate()"></div>
+    <div><label>Whether Attached?</label><select id="attached" onchange="toggleAttachedPlace()"><option value="No">No</option><option value="Yes">Yes</option></select></div>
+    <div id="attachedPlaceWrap" style="display:none"><label>Place of Posting (if Attached)</label><input id="attachedPlace" placeholder="Enter attached posting location"></div>
+    <div><label>Current Posting Place *</label><input id="postingPlace" required placeholder="BPHC/CHC/SDCH/Office/etc."></div>
+    <div><label>Office/Institution</label><input id="office"></div>
+    <div><label>Date of Joining</label><input id="joining" type="text" inputmode="numeric" placeholder="DD/MM/YYYY" maxlength="10"></div>
+    <div><label>Date of Present Posting</label><input id="postingDate" type="text" inputmode="numeric" placeholder="DD/MM/YYYY" maxlength="10"></div>
+    <div><label>Calculated Date of Retirement</label><input id="retirementDate" type="text" placeholder="DD/MM/YYYY" readonly title="Automatically calculated from Date of Birth and Category"></div>
+    <div><label>Posting Order No.</label><input id="orderNo"></div>
+    <div><label>Mobile</label><input id="mobile"></div>
+    <div><label>Status</label><select id="status"><option>Active</option><option>On Leave</option><option>Transferred</option><option>Retired</option><option>Contract Ended</option></select></div>
+   </div>
+   <div class="actions">
+    <button class="primary" type="submit">Save Record</button>
+    <button class="secondary" type="button" onclick="closeModal()">Cancel</button>
+   </div>
+  </form>
+ </div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script>
+
+// DEMO LOGIN ONLY. Change these credentials before use.
+// A client-side password can be inspected or bypassed; do not use for sensitive production data.
+const LOGIN_USER = "admin";
+const LOGIN_PASS = "ChangeMe@123";
+const LOGIN_SESSION_KEY = "hrmis_login_ok";
+
+const LOGIN_PASSWORD_KEY = "hrmis_login_password";
+
+function currentLoginPassword(){
+  return localStorage.getItem(LOGIN_PASSWORD_KEY) || LOGIN_PASS;
+}
+function openPasswordModal(){
+  document.getElementById("passwordForm").reset();
+  const msg=document.getElementById("passwordMessage");
+  msg.style.display="none"; msg.textContent="";
+  document.getElementById("passwordModal").classList.add("open");
+  document.getElementById("currentPassword").focus();
+}
+function closePasswordModal(){
+  document.getElementById("passwordModal").classList.remove("open");
+  document.getElementById("passwordForm").reset();
+}
+document.getElementById("passwordForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  const current=document.getElementById("currentPassword").value;
+  const next=document.getElementById("newPassword").value;
+  const confirmNext=document.getElementById("confirmPassword").value;
+  const msg=document.getElementById("passwordMessage");
+  const showMessage=(text,ok=false)=>{
+    msg.textContent=text;
+    msg.style.display="block";
+    msg.style.background=ok?"#e7f6ed":"#fef3f2";
+    msg.style.color=ok?"#16803c":"#b42318";
+    msg.style.border="1px solid "+(ok?"#a6e3bd":"#fecdca");
+  };
+  if(current!==currentLoginPassword()){
+    showMessage("Current password is incorrect."); return;
+  }
+  if(next.length<8){
+    showMessage("New password must be at least 8 characters."); return;
+  }
+  if(next!==confirmNext){
+    showMessage("New password and confirmation do not match."); return;
+  }
+  localStorage.setItem(LOGIN_PASSWORD_KEY,next);
+  showMessage("Password updated. Use the new password next time you log in.",true);
+  document.getElementById("passwordForm").reset();
+  setTimeout(closePasswordModal,1200);
+}
+);
+
+
+function showPortal(){
+  document.getElementById("loginScreen").hidden = true;
+  document.getElementById("appShell").hidden = false;
+}
+function showLogin(){
+  document.getElementById("loginScreen").hidden = false;
+  document.getElementById("appShell").hidden = true;
+}
+document.getElementById("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const username = document.getElementById("loginUser").value.trim();
+  const password = document.getElementById("loginPass").value;
+  if(username === LOGIN_USER && password === currentLoginPassword()){
+    sessionStorage.setItem(LOGIN_SESSION_KEY, "1");
+    document.getElementById("loginError").style.display = "none";
+    showPortal();
+  } else {
+    document.getElementById("loginError").style.display = "block";
+  }
+});
+if(sessionStorage.getItem(LOGIN_SESSION_KEY) === "1") showPortal();
+else showLogin();
+
+
+const KEY="dibrugarh_fw_employee_records_v1";
+let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+
+// Do not insert demo/sample records automatically. An empty register stays empty.
+function save(){localStorage.setItem(KEY,JSON.stringify(data)); logAudit("SAVE","Employee Records",data.length+" employee(s)","Employee database saved"); populateRetirementYears(); render(); if(typeof renderAdvancedModules==="function")renderAdvancedModules();if(typeof renderAdvancedDashboard==="function")renderAdvancedDashboard();}
+function clearAllData(){
+ if(!data.length){alert("There are no employee records to delete.");return;}
+ if(confirm("DELETE ALL employee records from this browser? This cannot be undone. Export a CSV backup first if needed.")){
+   data=[];
+   localStorage.removeItem(KEY);
+   render();
+   alert("All employee records have been deleted from this browser.");
+ }
+}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+function parseISODate(value){
+ const iso=normalizeDateISO(value); if(!iso)return null;
+ const m=iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+ return m?new Date(Number(m[1]),Number(m[2])-1,Number(m[3]),12,0,0,0):null;
+}
+function todayLocal(){const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate(),12,0,0,0);}
+function dateISOFromDate(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function retirementISO(x){return normalizeDateISO(calculateRetirementDate(x.dob,x.cat));}
+function reportLabel(){return ({register:"Employee Database",retirement12:"Retirement Due in Next 12 Months",retirementYear:"Retirement Due This Calendar Year",attached:"Attached Employees Register",missing:"Employees with Missing Key Details"})[document.getElementById("reportType").value]||"Employee Database";}
+function hasMissingKeyDetails(x){return !String(x.employeeId||"").trim()||!String(x.name||"").trim()||!String(x.post||"").trim()||!String(x.cat||"").trim()||!String(x.postingPlace||"").trim()||!normalizeDateISO(x.dob);}
+function filtered(){
+ const s=document.getElementById("search").value.toLowerCase().trim(), t=document.getElementById("type").value;
+ const c=document.getElementById("category").value, p=document.getElementById("place").value.toLowerCase().trim();
+ const status=document.getElementById("statusFilter").value, attached=document.getElementById("attachedFilter").value;
+ const retirementYear=document.getElementById("retirementYear").value, report=document.getElementById("reportType").value;
+ const today=todayLocal(), nextYear=new Date(today.getFullYear()+1,today.getMonth(),today.getDate(),12,0,0,0);
+ const yearStart=new Date(today.getFullYear(),0,1,12,0,0,0), yearEnd=new Date(today.getFullYear()+1,0,1,12,0,0,0);
+ let rows=data.filter(x=>{
+   const searchFields=[x.employeeId,x.name,x.post,x.cat,x.empType,x.attached,x.attachedPlace,x.postingPlace,x.office,x.dob,x.joining,x.postingDate,x.orderNo,x.mobile,x.status,formatDateDisplay(calculateRetirementDate(x.dob,x.cat))].join(" ").toLowerCase();
+   const rdate=parseISODate(calculateRetirementDate(x.dob,x.cat));
+   return (!s||searchFields.includes(s)) && (!t||x.empType===t) && (!c||x.cat===c) && (!p||String(x.postingPlace||"").toLowerCase().includes(p)) &&
+     (!status||x.status===status) && (!attached||(x.attached||"No")===attached) && (!retirementYear||(rdate&&String(rdate.getFullYear())===retirementYear)) &&
+     (report==="register"|| (report==="retirement12"&&rdate&&rdate>=today&&rdate<nextYear) || (report==="retirementYear"&&rdate&&rdate>=yearStart&&rdate<yearEnd) || (report==="attached"&&x.attached==="Yes") || (report==="missing"&&hasMissingKeyDetails(x)));
+ });
+ const sortKey=document.getElementById("sortBy").value, direction=document.getElementById("sortOrder").value==="desc"?-1:1;
+ rows.sort((a,b)=>{
+   let av=a[sortKey]||"",bv=b[sortKey]||"";
+   if(sortKey==="retirementDate"){av=retirementISO(a)||"9999-99-99";bv=retirementISO(b)||"9999-99-99";}
+   if(sortKey==="joining"){av=normalizeDateISO(a.joining)||"9999-99-99";bv=normalizeDateISO(b.joining)||"9999-99-99";}
+   return String(av).localeCompare(String(bv),undefined,{numeric:true,sensitivity:"base"})*direction;
+ });
+ return rows;
+}
+function render(){
+ const rows=filtered(), tb=document.getElementById("tbody");
+ tb.innerHTML=rows.map((x,i)=>`<tr>
+ <td>${i+1}</td><td>${esc(x.employeeId)}</td><td><b>${esc(x.name)}</b></td><td>${esc(x.post)}</td><td>${esc(x.cat)}</td>
+ <td><span class="badge ${x.empType==="Regular"?"reg":"con"}">${esc(x.empType)}</span></td>
+ <td>${esc(formatDateDisplay(x.dob))}</td><td>${esc(formatDateDisplay(calculateRetirementDate(x.dob,x.cat)))}</td><td>${esc(x.attached||"No")}</td><td>${esc(x.attached==="Yes"?x.attachedPlace:"—")}</td><td>${esc(x.postingPlace)}</td><td>${esc(x.office)}</td><td>${esc(formatDateDisplay(x.joining))}</td><td>${esc(formatDateDisplay(x.postingDate))}</td>
+ <td>${esc(x.orderNo)}</td><td>${esc(x.mobile)}</td><td><span class="badge ${x.status==="Active"?"reg":x.status==="Transferred"?"vac":"con"}">${esc(x.status)}</span></td>
+ <td class="row-actions no-print"><button class="secondary" onclick="edit('${encodeURIComponent(x.employeeId)}')">Edit</button> <button class="danger" onclick="removeRec('${encodeURIComponent(x.employeeId)}')">Delete</button></td>
+ </tr>`).join("") || `<tr><td colspan="18" style="text-align:center;padding:30px">No records found for the selected filters.</td></tr>`;
+ document.getElementById("total").textContent=data.length;
+ document.getElementById("regular").textContent=data.filter(x=>x.empType==="Regular").length;
+ document.getElementById("contractual").textContent=data.filter(x=>x.empType==="Contractual").length;
+ document.getElementById("posts").textContent=new Set(data.map(x=>x.post).filter(Boolean)).size;
+ document.getElementById("places").textContent=new Set(data.map(x=>x.postingPlace).filter(Boolean)).size;
+ const today=todayLocal(), limit=new Date(today.getFullYear()+1,today.getMonth(),today.getDate(),12,0,0,0);
+ const retirementRows=data.map(x=>({x,d:parseISODate(calculateRetirementDate(x.dob,x.cat))})).filter(o=>o.d&&o.d>=today&&o.d<limit).sort((a,b)=>a.d-b.d);
+ document.getElementById("retiringSoon").textContent=retirementRows.length;
+ document.getElementById("retiredThisYear").textContent=data.filter(x=>{const d=parseISODate(calculateRetirementDate(x.dob,x.cat));return d&&d.getFullYear()===today.getFullYear();}).length;
+ document.getElementById("missingInfo").textContent=data.filter(hasMissingKeyDetails).length;
+ const alertBox=document.getElementById("retirementAlerts");
+ alertBox.innerHTML=retirementRows.length?retirementRows.slice(0,9).map(({x,d})=>{const days=Math.ceil((d-today)/86400000);return `<div class="alert-item"><strong>${esc(x.name||"Unnamed employee")}</strong><small>ID: ${esc(x.employeeId||"—")} · ${esc(x.cat||"Category missing")}</small><div style="margin-top:6px;font-weight:700">Retirement: ${esc(formatDateDisplay(dateISOFromDate(d)))}</div><small>${days===0?"Due today":"In "+days+" day"+(days===1?"":"s")}</small></div>`;}).join(""):`<div class="note">No upcoming retirements in the next 12 months.</div>`;
+ const title=reportLabel(); document.getElementById("registerHeading").textContent=title;document.getElementById("printTitle").textContent=title;
+}
+["search","type","category","place","statusFilter","attachedFilter","retirementYear","reportType","sortBy","sortOrder"].forEach(id=>document.getElementById(id).addEventListener("input",render));
+function populateRetirementYears(){
+ const sel=document.getElementById("retirementYear"), selected=sel.value, years=new Set();
+ sel.innerHTML='<option value="">All years</option>';
+ data.forEach(x=>{const iso=calculateRetirementDate(x.dob,x.cat);if(iso)years.add(Number(iso.slice(0,4)));});
+ const current=new Date().getFullYear();for(let y=current-1;y<=current+15;y++)years.add(y);
+ [...years].sort((a,b)=>a-b).forEach(y=>{const opt=document.createElement("option");opt.value=String(y);opt.textContent=String(y);sel.appendChild(opt);});
+ if([...sel.options].some(o=>o.value===selected))sel.value=selected;
+}
+window.addEventListener("beforeprint",()=>{
+ const rows=filtered(), stamp=new Date().toLocaleDateString("en-GB"), filters=[];
+ const values={"Search":document.getElementById("search").value.trim(),"Employment":document.getElementById("type").value,"Category":document.getElementById("category").value,"Posting place":document.getElementById("place").value.trim(),"Status":document.getElementById("statusFilter").value,"Attachment":document.getElementById("attachedFilter").value,"Retirement year":document.getElementById("retirementYear").value};
+ Object.entries(values).forEach(([label,value])=>{if(value)filters.push(label+": "+value);});
+ document.getElementById("printMeta").textContent="Printed: "+stamp+" | Records in report: "+rows.length+" | Report: "+reportLabel()+(filters.length?" | Filters: "+filters.join(", "):"");
+});
+function clearFilters(){["search","place"].forEach(id=>document.getElementById(id).value="");["type","category","statusFilter","attachedFilter","retirementYear"].forEach(id=>document.getElementById(id).value="");document.getElementById("reportType").value="register";document.getElementById("sortBy").value="name";document.getElementById("sortOrder").value="asc";render();}
+function toggleAttachedPlace(){
+ const attached=document.getElementById("attached").value==="Yes";
+ document.getElementById("attachedPlaceWrap").style.display=attached?"block":"none";
+ if(!attached) document.getElementById("attachedPlace").value="";
+}
+function dateForInput(value){
+ // Show all dates consistently as DD/MM/YYYY while accepting ISO dates from older records.
+ const iso=normalizeDateISO(value);
+ if(!iso) return "";
+ const m=iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+ return `${m[3]}/${m[2]}/${m[1]}`;
+}
+function normalizeDateISO(value){
+ if(!value) return "";
+ const v=String(value).trim();
+ let m=v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:$|T|\s)/);
+ if(m){const y=Number(m[1]),mo=Number(m[2]),d=Number(m[3]);if(validDateParts(y,mo,d))return `${y}-${String(mo).padStart(2,"0")}-${String(d).padStart(2,"0")}`;return "";}
+ // User-facing slash/dot/hyphen dates are interpreted as DD/MM/YYYY.
+ m=v.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
+ if(m){const d=Number(m[1]),mo=Number(m[2]),y=Number(m[3]);if(validDateParts(y,mo,d))return `${y}-${String(mo).padStart(2,"0")}-${String(d).padStart(2,"0")}`;}
+ return "";
+}
+function normalizeDOB(value){return normalizeDateISO(value);}
+function validDateParts(y,mo,d){
+ if(!Number.isInteger(y)||!Number.isInteger(mo)||!Number.isInteger(d)||mo<1||mo>12||d<1||d>31) return false;
+ const test=new Date(y,mo-1,d);
+ return test.getFullYear()===y&&test.getMonth()===mo-1&&test.getDate()===d;
+}
+function calculateRetirementDate(dob, category){
+ // Medical = 65 years; all other categories = 60 years.
+ // DOB on the 1st: last day of the preceding month; otherwise last day of the DOB month.
+ const normalized=normalizeDOB(dob);
+ if(!normalized) return "";
+ const m=normalized.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+ const year=Number(m[1]), month=Number(m[2]), day=Number(m[3]);
+ const age=(String(category||"").trim().toLowerCase()==="medical")?65:60;
+ const retirementYear=year+age;
+ const result=(day===1)?new Date(retirementYear,month-1,0):new Date(retirementYear,month,0);
+ return result.getFullYear()+"-"+String(result.getMonth()+1).padStart(2,"0")+"-"+String(result.getDate()).padStart(2,"0");
+}
+function formatDateDisplay(value){
+ if(!value) return "—";
+ const iso=normalizeDateISO(value);
+ if(!iso) return value;
+ const m=iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+ return `${m[3]}/${m[2]}/${m[1]}`;
+}
+function updateRetirementDate(){
+ const dob=document.getElementById("dob").value;
+ const category=document.getElementById("cat").value;
+ document.getElementById("retirementDate").value=formatDateDisplay(calculateRetirementDate(dob,category));
+}
+function openModal(rec){
+ document.getElementById("modal").classList.add("open");
+ document.getElementById("modalTitle").textContent=rec?"Edit Employee":"Add Employee";
+ document.getElementById("form").reset(); document.getElementById("editId").value=rec?.employeeId||"";
+ if(rec) for(const k of ["employeeId","name","post","cat","empType","dob","retirementDate","attached","attachedPlace","postingPlace","office","joining","postingDate","orderNo","mobile","status"]){
+   const field=document.getElementById(k);
+   field.value=(k==="dob"||k==="joining"||k==="postingDate")?dateForInput(rec[k]):(rec[k]||(k==="attached"?"No":""));
+ }
+ updateRetirementDate();
+ toggleAttachedPlace();
+}
+function closeModal(){document.getElementById("modal").classList.remove("open");}
+document.getElementById("form").addEventListener("submit",e=>{
+ e.preventDefault(); const id=document.getElementById("editId").value;
+ const rec={}; for(const k of ["employeeId","name","post","cat","empType","dob","retirementDate","attached","attachedPlace","postingPlace","office","joining","postingDate","orderNo","mobile","status"]) rec[k]=document.getElementById(k).value.trim();
+ for(const k of ["dob","joining","postingDate"]) { if(rec[k]) { const iso=normalizeDateISO(rec[k]); if(!iso) return alert("Please enter a valid date in DD/MM/YYYY format for "+({dob:"Date of Birth",joining:"Date of Joining",postingDate:"Date of Present Posting"}[k])+"."); rec[k]=formatDateDisplay(iso); } }
+ rec.retirementDate=formatDateDisplay(calculateRetirementDate(rec.dob,rec.cat));
+ if(!rec.employeeId||!rec.name||!rec.post||!rec.cat||!rec.postingPlace) return alert("Please complete all required fields marked with *.");
+ if(rec.mobile && !/^[0-9+()\-\s]{7,18}$/.test(rec.mobile)) return alert("Please enter a valid mobile number (digits and optional +, spaces, brackets or hyphens).");
+ const duplicateId=data.some(x=>String(x.employeeId||"").trim().toLowerCase()===rec.employeeId.trim().toLowerCase()&&x.employeeId!==id);
+ if(duplicateId) return alert("Employee ID already exists. Please use a unique Employee ID.");
+ if(rec.dob){const dobDate=parseISODate(rec.dob);if(dobDate&&dobDate>todayLocal())return alert("Date of Birth cannot be in the future.");}
+ if(rec.joining&&rec.dob&&normalizeDateISO(rec.joining)<normalizeDateISO(rec.dob))return alert("Date of Joining cannot be earlier than Date of Birth.");
+ if(rec.postingDate&&rec.joining&&normalizeDateISO(rec.postingDate)<normalizeDateISO(rec.joining))return alert("Date of Present Posting cannot be earlier than Date of Joining.");
+ if(rec.attached==="Yes"&&!rec.attachedPlace.trim())return alert("Please enter Place of Posting when Whether Attached is Yes.");
+ const possibleDuplicate=data.some(x=>x.employeeId!==id&&String(x.name||"").trim().toLowerCase()===rec.name.trim().toLowerCase()&&normalizeDateISO(x.dob)===normalizeDateISO(rec.dob)&&normalizeDateISO(rec.dob));
+ if(possibleDuplicate&&!confirm("Another employee has the same name and date of birth. Save this record anyway?"))return;
+ if(id&&typeof editOriginalSnapshot!=='undefined'&&editOriginalSnapshot){const old=editOriginalSnapshot;if(old.postingPlace!==rec.postingPlace||old.office!==rec.office||old.postingDate!==rec.postingDate){moduleData.history.push(makeModuleRecord('history',{employeeId:old.employeeId,from:old.postingDate||old.joining||'',to:rec.postingDate||formatDateDisplay(dateISOFromDate(todayLocal())),place:old.postingPlace||'',office:old.office||'',order:old.orderNo||'',remarks:'Automatically captured before posting details were updated.'}));saveModule('history');}editOriginalSnapshot=null;}
+ if(id){const i=data.findIndex(x=>x.employeeId===id); if(i>=0)data[i]=rec;logAudit("EDIT","Employee Records",rec.employeeId,"Employee details updated");} else {data.push(rec);logAudit("ADD","Employee Records",rec.employeeId,"New employee record added");}
+ save();renderModules();closeModal();
+});
+function edit(id){const rec=data.find(x=>x.employeeId===decodeURIComponent(id)); if(rec)openModal(rec);}
+function removeRec(id){id=decodeURIComponent(id);if(confirm("Delete this employee record?")){logAudit("DELETE","Employee Records",id,"Employee record deleted");data=data.filter(x=>x.employeeId!==id);save();}}
+function csvEscape(v){return '"'+String(v??"").replace(/"/g,'""')+'"';}
+function exportCSV(){
+ const cols=["employeeId","name","post","cat","empType","dob","retirementDate","attached","attachedPlace","postingPlace","office","joining","postingDate","orderNo","mobile","status"];
+ const out=[cols.join(","),...data.map(r=>cols.map(c=>csvEscape(c==="retirementDate"?(calculateRetirementDate(r.dob,r.cat)?formatDateDisplay(calculateRetirementDate(r.dob,r.cat)):""):["dob","joining","postingDate"].includes(c)?(r[c]?formatDateDisplay(r[c]):""):r[c])).join(","))].join("\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([out],{type:"text/csv"}));a.download="Dibrugarh_FW_Employee_Posting_Register.csv";a.click();
+}
+function backupJSON(){
+ // Preserve legacy structure and include every portal register + saved official drafts.
+ const snapshot={};
+ for(let i=0;i<localStorage.length;i++){
+   const k=localStorage.key(i); if(!k)continue;
+   if(k===LOGIN_PASSWORD_KEY||k===LOGIN_SESSION_KEY||k==='hrmis_login_ok')continue;
+   if(k===KEY||Object.values(MODULE_KEYS||{}).includes(k)||k==='dibrugarh_fw_official_drafts_v1'||k.startsWith('dibrugarh_fw_')) snapshot[k]=localStorage.getItem(k);
+ }
+ const payload={format:"HRMIS-PORTAL-BACKUP",version:4,createdAt:new Date().toISOString(),recordCount:data.length,records:data,modules:moduleData,storage:snapshot,securityNote:"Login credentials and session tokens are intentionally excluded. Restore will not change the current login password."};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="Dibrugarh_HFW_Full_Backup_"+dateISOFromDate(todayLocal())+".json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+ alert("Full portal backup prepared: "+data.length+" employee record(s), registers and saved official drafts. Passwords are excluded. Store the file securely.");
+}
+function restoreJSON(e){
+ const file=e.target.files&&e.target.files[0];if(!file)return;
+ const reader=new FileReader();
+ reader.onload=()=>{try{
+   const parsed=JSON.parse(reader.result);const incoming=Array.isArray(parsed)?parsed:parsed.records;
+   if(!Array.isArray(incoming))throw new Error("This file is not a valid HRMIS JSON backup.");
+   const seen=new Set();
+   for(const r of incoming){
+     if(!r||typeof r!=="object"||!String(r.employeeId||"").trim())throw new Error("Backup contains a record without an Employee ID.");
+     const id=String(r.employeeId).trim().toLowerCase();if(seen.has(id))throw new Error("Backup contains duplicate Employee IDs: "+r.employeeId);seen.add(id);
+     for(const k of ["dob","joining","postingDate"]){if(r[k]&&!normalizeDateISO(r[k]))throw new Error("Invalid "+k+" date for Employee ID "+r.employeeId+". Expected DD/MM/YYYY.");}
+   }
+   if(!confirm("Restore "+incoming.length+" employee record(s)? This will REPLACE all current portal records. Export a backup of current records first if needed."))return;
+   data=incoming.map(r=>({...r,employeeId:String(r.employeeId).trim(),dob:r.dob?formatDateDisplay(r.dob):"",joining:r.joining?formatDateDisplay(r.joining):"",postingDate:r.postingDate?formatDateDisplay(r.postingDate):"",retirementDate:formatDateDisplay(calculateRetirementDate(r.dob,r.cat)),attached:r.attached||"No",attachedPlace:r.attached==="Yes"?(r.attachedPlace||""):""}));
+   if(parsed.modules&&typeof parsed.modules==="object"){Object.keys(MODULE_KEYS).forEach(k=>{if(Array.isArray(parsed.modules[k])){moduleData[k]=parsed.modules[k];localStorage.setItem(MODULE_KEYS[k],JSON.stringify(moduleData[k]));}});}
+   if(parsed.storage&&typeof parsed.storage==="object"){
+     Object.entries(parsed.storage).forEach(([k,v])=>{if(typeof k==='string'&&k.startsWith('dibrugarh_fw_')&&typeof v==='string'){try{JSON.parse(v);localStorage.setItem(k,v)}catch(_){/* ignore malformed optional snapshot key */}}});
+     Object.keys(MODULE_KEYS).forEach(k=>{try{const v=JSON.parse(localStorage.getItem(MODULE_KEYS[k])||'[]');if(Array.isArray(v))moduleData[k]=v}catch(_){}});
+   }
+   save();populateRetirementYears();render();renderModules();logAudit("RESTORE","Backup",incoming.length+" employee(s)","JSON backup restored");alert("Backup restored successfully. Employee records, included registers and drafts have been restored where present. Your login password was not changed.");
+ }catch(err){alert("Restore failed: "+err.message);}finally{e.target.value="";}};
+ reader.readAsText(file);
+}
+
+function parseCSV(text){
+ const rows=[];let row=[],cell="",q=false;
+ for(let i=0;i<text.length;i++){let ch=text[i],nx=text[i+1];if(ch==='"'&&q&&nx==='"'){cell+='"';i++;continue}if(ch==='"'){q=!q;continue}if(ch===','&&!q){row.push(cell);cell="";continue}if((ch==='\n'||ch==='\r')&&!q){if(ch==='\r'&&nx==='\n')i++;row.push(cell);if(row.some(v=>v!==""))rows.push(row);row=[];cell="";continue}cell+=ch}if(cell||row.length){row.push(cell);rows.push(row)}return rows}
+function importCSV(e){
+ const file=e.target.files[0];if(!file)return;const reader=new FileReader();
+ reader.onload=()=>{try{
+   const rows=parseCSV(reader.result);const headers=rows.shift().map(x=>x.trim());const required=["employeeId","name","post","cat","empType","postingPlace"];
+   if(!required.every(x=>headers.includes(x)))throw Error("CSV headers are incomplete. Please use a CSV exported by this portal.");
+   const incoming=[];const seen=new Set();
+   rows.forEach((r,index)=>{let o={};headers.forEach((h,i)=>o[h]=r[i]||"");if(!o.employeeId)return;const id=String(o.employeeId).trim().toLowerCase();if(seen.has(id))throw Error("Duplicate Employee ID in CSV: "+o.employeeId);seen.add(id);
+     for(const k of ["dob","joining","postingDate"]){if(o[k]==="—")o[k]="";if(o[k]){const iso=normalizeDateISO(o[k]);if(!iso)throw Error("Invalid date in CSV row "+(index+2)+" for "+k+". Expected DD/MM/YYYY.");o[k]=formatDateDisplay(iso);}}
+     o.employeeId=String(o.employeeId).trim();o.attached=o.attached||"No";o.attachedPlace=o.attached==="Yes"?(o.attachedPlace||""):"";o.retirementDate=formatDateDisplay(calculateRetirementDate(o.dob,o.cat));incoming.push(o);
+   });
+   if(!confirm("Import "+incoming.length+" records? Matching Employee IDs will be updated; new IDs will be added."))return;
+   incoming.forEach(o=>{const idx=data.findIndex(x=>String(x.employeeId).trim().toLowerCase()===o.employeeId.toLowerCase());if(idx>=0)data[idx]={...data[idx],...o};else data.push(o);});
+   save();populateRetirementYears();logAudit("IMPORT","Employee Records",incoming.length+" record(s)","CSV import completed");alert("CSV imported successfully. "+incoming.length+" record(s) processed.");
+ }catch(err){alert(err.message)}finally{e.target.value="";}};reader.readAsText(file);
+}
+// Establishment modules use separate local browser storage collections.
+const MODULE_KEYS={history:"dibrugarh_fw_posting_history_v1",vacancies:"dibrugarh_fw_vacancies_v1",orders:"dibrugarh_fw_orders_v1",retirement:"dibrugarh_fw_retirement_processing_v1",documents:"dibrugarh_fw_document_tracking_v1",servicebook:"dibrugarh_fw_servicebook_v1",leave:"dibrugarh_fw_leave_v1",diary:"dibrugarh_fw_diary_v1",filemovement:"dibrugarh_fw_file_movement_v1",reminders:"dibrugarh_fw_reminders_v1",recruitment:"dibrugarh_fw_recruitment_v1",transfer:"dibrugarh_fw_transfer_v1",returns:"dibrugarh_fw_monthly_returns_v1",audit:"dibrugarh_fw_audit_v1"};
+const moduleData={};Object.keys(MODULE_KEYS).forEach(k=>{try{moduleData[k]=JSON.parse(localStorage.getItem(MODULE_KEYS[k])||"[]");if(!Array.isArray(moduleData[k]))moduleData[k]=[]}catch(e){moduleData[k]=[]}});
+function saveModule(k){localStorage.setItem(MODULE_KEYS[k],JSON.stringify(moduleData[k]));if(k!=="audit")logAudit("SAVE",k,(moduleData[k]||[]).length+" record(s)","Register updated");renderModules();if(typeof renderAdvancedModules==="function")renderAdvancedModules();if(typeof renderAdvancedDashboard==="function")renderAdvancedDashboard();}
+function showModule(name,button){document.querySelectorAll('.module-panel').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.module-nav button').forEach(x=>x.classList.remove('active'));if(name==='employees'){document.getElementById('registerHeading').scrollIntoView({behavior:'smooth',block:'start'});}else{const el=document.getElementById('module-'+name);if(el)el.classList.add('active');}if(button)button.classList.add('active');}
+function employeeName(id){const r=data.find(x=>String(x.employeeId).toLowerCase()===String(id||'').toLowerCase());return r?r.name:'—';}
+function removeModuleRecord(k,id){if(confirm('Delete this register entry?')){moduleData[k]=moduleData[k].filter(x=>x.id!==id);saveModule(k);}}
+function addRow(body,cols,k,rec,display){const tr=document.createElement('tr');tr.innerHTML=cols.map(c=>'<td>'+esc(display?display(c,rec):(rec[c]??''))+'</td>').join('')+'<td class="no-print"><button class="danger module-delete" type="button">Delete</button></td>';const btn=tr.querySelector('button');btn.addEventListener('click',()=>removeModuleRecord(k,rec.id));document.getElementById(body).appendChild(tr);}
+function renderModules(){
+ const ids=document.getElementById('employeeIds');if(ids)ids.innerHTML=data.map(x=>'<option value="'+esc(x.employeeId)+'">'+esc(x.name)+'</option>').join('');
+ const hb=document.getElementById('historyBody');if(hb){hb.innerHTML='';moduleData.history.slice().sort((a,b)=>String(b.from||'').localeCompare(String(a.from||''))).forEach(r=>addRow('historyBody',['employeeId','name','from','to','place','office','order','remarks'],'history',r,(c,x)=>c==='name'?employeeName(x.employeeId):x[c]));}
+ const vb=document.getElementById('vacancyBody');if(vb){vb.innerHTML='';moduleData.vacancies.forEach(r=>addRow('vacancyBody',['post','category','office','sanctioned','inPosition','vacant','type','date','remarks'],'vacancies',r,(c,x)=>c==='vacant'?Math.max(0,Number(x.sanctioned)-Number(x.inPosition)):x[c]));}
+ const ob=document.getElementById('orderBody');if(ob){ob.innerHTML='';moduleData.orders.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).forEach(r=>addRow('orderBody',['number','date','type','employeeId','subject','parties','reference','remarks'],'orders',r,(c,x)=>c==='employeeId'?(x.employeeId||'—'):x[c]));}
+ const rb=document.getElementById('retireBody');if(rb){rb.innerHTML='';moduleData.retirement.forEach(r=>addRow('retireBody',['employeeId','name','retirementDate','noticeDate','service','pension','noDues','status','officer','remarks'],'retirement',r,(c,x)=>{const e=data.find(y=>String(y.employeeId).toLowerCase()===String(x.employeeId).toLowerCase());return c==='name'?(e?e.name:'—'):c==='retirementDate'?(e?formatDateDisplay(calculateRetirementDate(e.dob,e.cat)):'—'):x[c]}));}
+ const db=document.getElementById('documentBody');if(db){db.innerHTML='';moduleData.documents.forEach(r=>addRow('documentBody',['employeeId','name','type','number','date','availability','verifiedBy','verifyDate','remarks'],'documents',r,(c,x)=>c==='name'?employeeName(x.employeeId):x[c]));}
+ if(typeof renderAdvancedModules==='function')renderAdvancedModules();
+}
+function makeModuleRecord(k,values){return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),...values,createdAt:new Date().toISOString()};}
+function readModuleForm(formId,fields){const o={};fields.forEach(k=>o[k]=document.getElementById(k).value.trim());return o;}
+document.getElementById('historyForm').addEventListener('submit',e=>{e.preventDefault();const r=readModuleForm('historyForm',['hEmployeeId','hFrom','hTo','hPlace','hOffice','hOrder','hRemarks']);if(!data.some(x=>String(x.employeeId).toLowerCase()===r.hEmployeeId.toLowerCase()))return alert('Employee ID not found in Employee Records.');moduleData.history.push(makeModuleRecord('history',{employeeId:r.hEmployeeId,from:r.hFrom,to:r.hTo,place:r.hPlace,office:r.hOffice,order:r.hOrder,remarks:r.hRemarks}));e.target.reset();saveModule('history');});
+document.getElementById('vacancyForm').addEventListener('submit',e=>{e.preventDefault();const r=readModuleForm('vacancyForm',['vPost','vCategory','vOffice','vSanctioned','vInPosition','vType','vDate','vRemarks']);if(Number(r.vInPosition)>Number(r.vSanctioned))return alert('In Position cannot exceed Sanctioned Posts.');moduleData.vacancies.push(makeModuleRecord('vacancies',{post:r.vPost,category:r.vCategory,office:r.vOffice,sanctioned:Number(r.vSanctioned),inPosition:Number(r.vInPosition),type:r.vType,date:r.vDate,remarks:r.vRemarks}));e.target.reset();document.getElementById('vInPosition').value='0';saveModule('vacancies');});
+document.getElementById('orderForm').addEventListener('submit',e=>{e.preventDefault();const r=readModuleForm('orderForm',['oNumber','oDate','oType','oEmployeeId','oSubject','oParties','oReference','oRemarks']);if(r.oEmployeeId&&!data.some(x=>String(x.employeeId).toLowerCase()===r.oEmployeeId.toLowerCase()))return alert('Employee ID not found. Leave blank for general orders.');moduleData.orders.push(makeModuleRecord('orders',{number:r.oNumber,date:r.oDate,type:r.oType,employeeId:r.oEmployeeId,subject:r.oSubject,parties:r.oParties,reference:r.oReference,remarks:r.oRemarks}));e.target.reset();saveModule('orders');});
+document.getElementById('retireForm').addEventListener('submit',e=>{e.preventDefault();const r=readModuleForm('retireForm',['rEmployeeId','rNoticeDate','rService','rPension','rNoDues','rStatus','rOfficer','rRemarks']);const emp=data.find(x=>String(x.employeeId).toLowerCase()===r.rEmployeeId.toLowerCase());if(!emp)return alert('Employee ID not found in Employee Records.');const rec={employeeId:r.rEmployeeId,noticeDate:r.rNoticeDate,service:r.rService,pension:r.rPension,noDues:r.rNoDues,status:r.rStatus,officer:r.rOfficer,remarks:r.rRemarks};const idx=moduleData.retirement.findIndex(x=>String(x.employeeId).toLowerCase()===r.rEmployeeId.toLowerCase());if(idx>=0)moduleData.retirement[idx]={...moduleData.retirement[idx],...rec};else moduleData.retirement.push(makeModuleRecord('retirement',rec));e.target.reset();saveModule('retirement');});
+document.getElementById('documentForm').addEventListener('submit',e=>{e.preventDefault();const r=readModuleForm('documentForm',['dEmployeeId','dType','dNumber','dDate','dAvailability','dVerifiedBy','dVerifyDate','dRemarks']);if(!data.some(x=>String(x.employeeId).toLowerCase()===r.dEmployeeId.toLowerCase()))return alert('Employee ID not found in Employee Records.');moduleData.documents.push(makeModuleRecord('documents',{employeeId:r.dEmployeeId,type:r.dType,number:r.dNumber,date:r.dDate,availability:r.dAvailability,verifiedBy:r.dVerifiedBy,verifyDate:r.dVerifyDate,remarks:r.dRemarks}));e.target.reset();saveModule('documents');});
+// Capture the prior record when the edit form opens.
+let editOriginalSnapshot=null;
+const baseOpenModal=openModal;
+openModal=function(rec){editOriginalSnapshot=rec?JSON.parse(JSON.stringify(rec)):null;baseOpenModal(rec);};
+
+
+// Comprehensive single-computer establishment modules. Existing collections are preserved.
+const EXTRA_DEFS = {
+ servicebook:{title:"Employee Service Book",desc:"Record service events against an employee. Dates are entered as DD/MM/YYYY.",fields:[["employeeId","Employee ID","text",true],["eventDate","Event Date","date",true],["eventType","Service Event","select",true,["Appointment","Joining","Confirmation","Increment","Promotion","Transfer","Leave","Disciplinary","Training","Pay Fixation","Other"]],["orderNo","Order / Reference No.","text"],["details","Details / Pay / Grade","text"],["verifiedBy","Entered / Verified By","text"],["remarks","Remarks","text"]]},
+ leave:{title:"Leave & Absence Register",desc:"Administrative tracking only; this module does not calculate statutory leave entitlement.",fields:[["employeeId","Employee ID","text",true],["leaveType","Leave / Absence Type","select",true,["Casual Leave","Earned Leave","Medical Leave","Maternity Leave","Child Care Leave","Extraordinary Leave","Unauthorized Absence","Other"]],["fromDate","From Date","date",true],["toDate","To Date","date",true],["days","Days","number"],["sanctionNo","Sanction / Order No.","text"],["status","Status","select",true,["Applied","Sanctioned","Rejected","Completed","Pending"]],["remarks","Remarks","text"]]},
+ filemovement:{title:"File Movement Register",desc:"Track file number, subject, section, present custodian, movement history and disposal status.",fields:[["fileNo","File No. / e-Office ID","text",true],["fileDate","Opened / Received Date","date",true],["subject","File Subject","text",true],["fromSection","From Section / Officer","text"],["toSection","Forwarded To / Section","text",true],["dealingAssistant","Dealing Assistant","text"],["movementDate","Movement Date","date",true],["status","Status","select",true,["Pending","Under Process","Submitted to Officer","Returned","Disposed","Closed"]],["dueDate","Due Date","date"],["remarks","Remarks / Action Taken","text"]]},
+ diary:{title:"e-Office Diary & Dispatch Register",desc:"Register incoming and outgoing correspondence with action and dispatch references.",fields:[["direction","Direction","select",true,["Received","Dispatched"]],["diaryNo","Diary / Dispatch No.","text",true],["entryDate","Entry Date","date",true],["letterNo","Letter No. & Date","text"],["fromTo","From / To","text",true],["subject","Subject","text",true],["section","Section / Dealing Assistant","text"],["dueDate","Action Due Date","date"],["status","Status","select",true,["Received","Under Process","Forwarded","Disposed","Pending"]],["remarks","Remarks","text"]]},
+ reminders:{title:"Pending Work & Reminder Centre",desc:"Use for follow-up tasks and due dates. This standalone portal does not send notifications when closed.",fields:[["task","Pending Work / Task","text",true],["relatedTo","Employee / File / Office","text"],["assignedTo","Responsible Officer / Assistant","text",true],["priority","Priority","select",true,["Low","Normal","High","Urgent"]],["dueDate","Due Date","date",true],["status","Status","select",true,["Pending","In Progress","Completed","On Hold"]],["lastAction","Last Action Taken","text"],["remarks","Remarks","text"]]},
+ recruitment:{title:"Recruitment & Appointment Tracker",desc:"Track requisition through appointment and joining.",fields:[["post","Post / Designation","text",true],["office","Office / Institution","text",true],["vacancies","Vacancies / Posts","number"],["requisitionNo","Requisition / Approval Ref.","text"],["stage","Current Stage","select",true,["Need Identified","Approval Pending","Requisition Sent","Advertisement","Selection","Appointment Issued","Joined","Closed","On Hold"]],["candidate","Candidate / Employee ID","text"],["orderNo","Appointment Order No.","text"],["targetDate","Target / Due Date","date"],["responsible","Responsible Officer","text"],["remarks","Remarks","text"]]},
+ transfer:{title:"Transfer & Posting Planner",desc:"Plan proposed transfers against staffing needs; saving a plan does not alter an employee's current record.",fields:[["employeeId","Employee ID","text",true],["currentPlace","Current Posting Place","text",true],["proposedPlace","Proposed Posting Place","text",true],["proposedOffice","Proposed Office / Institution","text"],["reason","Reason / Administrative Need","text",true],["vacancyChecked","Vacancy Checked?","select",true,["Pending","Yes","No"]],["proposalDate","Proposal Date","date"],["status","Status","select",true,["Draft","Under Review","Approved","Order Issued","Deferred","Cancelled"]],["orderNo","Order No.","text"],["remarks","Remarks","text"]]},
+ returns:{title:"Monthly Establishment Return",desc:"Prepare a monthly snapshot of employee strength and vacancy position; review figures before submission.",fields:[["month","Month / Period (e.g. Oct 2026)","text",true],["office","Office / Institution","text",true],["sanctioned","Sanctioned Strength","number",true],["regular","Regular In Position","number"],["contractual","Contractual In Position","number"],["vacancies","Vacancies","number"],["retirements","Retirements During Period","number"],["preparedBy","Prepared By","text"],["submittedDate","Submitted Date","date"],["status","Status","select",true,["Draft","Verified","Submitted","Returned for Correction"]],["remarks","Remarks","text"]]}
+};
+function buildExtraModuleUI(){
+ const root=document.getElementById('advancedModulesRoot'); if(!root || root.dataset.built==='1')return; root.dataset.built='1';
+ Object.entries(EXTRA_DEFS).forEach(([key,def])=>{
+   const sec=document.createElement('section');sec.id='module-'+key;sec.className='panel module-panel';
+   const fields=def.fields.map(f=>{const [id,label,type,required,opts]=f;let input='';
+     if(type==='select')input='<select id="x_'+key+'_'+id+'" '+(required?'required':'')+'>'+opts.map(o=>'<option>'+esc(o)+'</option>').join('')+'</select>';
+     else input='<input id="x_'+key+'_'+id+'" type="'+(type==='date'?'text':type)+'" '+(type==='date'?'inputmode="numeric" placeholder="DD/MM/YYYY" maxlength="10"':'')+' '+(required?'required':'')+'>';
+     return '<div><label for="x_'+key+'_'+id+'">'+esc(label)+(required?' *':'')+'</label>'+input+'</div>';
+   }).join('');
+   const cols=def.fields.map(f=>'<th>'+esc(f[1])+'</th>').join('');
+   sec.innerHTML='<h2>'+esc(def.title)+'</h2><p class="note">'+esc(def.desc)+'</p><form class="module-form" id="xform_'+key+'">'+fields+'<div class="actions"><button class="primary" type="submit">Save Entry</button><button class="secondary" type="reset">Clear Form</button></div></form><div class="table-wrap"><table class="module-table"><thead><tr>'+cols+'<th class="no-print">Action</th></tr></thead><tbody id="xbody_'+key+'"></tbody></table></div>';
+   root.appendChild(sec);
+   sec.querySelector('form').addEventListener('submit',e=>{e.preventDefault();const rec={};def.fields.forEach(f=>{const el=document.getElementById('x_'+key+'_'+f[0]);rec[f[0]]=el.value.trim();});
+     if(rec.employeeId && !data.some(x=>String(x.employeeId).toLowerCase()===rec.employeeId.toLowerCase())){alert('Employee ID not found in Employee Records.');return;}
+     if(key==='leave' && normalizeDateISO(rec.fromDate)&&normalizeDateISO(rec.toDate)&&normalizeDateISO(rec.toDate)<normalizeDateISO(rec.fromDate)){alert('To Date cannot be earlier than From Date.');return;}
+     if(key==='returns' && !rec.vacancies)rec.vacancies=Math.max(0,Number(rec.sanctioned)-Number(rec.regular||0)-Number(rec.contractual||0));
+     moduleData[key].push(makeModuleRecord(key,rec)); logAudit('ADD',def.title,rec.employeeId||rec.diaryNo||rec.task||rec.post||rec.month||'Register entry','New register entry'); e.target.reset();saveModule(key);
+   });
+ });
+ // Live analytical modules
+ const calendar=document.createElement('section');calendar.id='module-calendar';calendar.className='panel module-panel';
+ calendar.innerHTML='<h2>Retirement Calendar</h2><p class="note">Calculated from the employee DOB/category rules already configured in Employee Records.</p><div class="table-wrap"><table class="module-table"><thead><tr><th>Employee ID</th><th>Name</th><th>Post</th><th>Office</th><th>Retirement Date</th><th>Days Remaining</th></tr></thead><tbody id="calendarBody"></tbody></table></div>';
+ root.appendChild(calendar);
+ const forecast=document.createElement('section');forecast.id='module-forecast';forecast.className='panel module-panel';
+ forecast.innerHTML='<h2>Retirement Forecast</h2><p class="note">Forecast is based on current employee records and is not a sanctioned-vacancy certification.</p><div class="table-wrap"><table class="module-table"><thead><tr><th>Year</th><th>Expected Retirements</th><th>Potential Vacancies</th></tr></thead><tbody id="forecastBody"></tbody></table></div>';
+ root.appendChild(forecast);
+ const reports=document.createElement('section');reports.id='module-reports';reports.className='panel module-panel';
+ reports.innerHTML='<h2>Custom Report Builder</h2><p class="note">Choose a dataset and filter. Print / Save PDF using your browser after generating the report.</p><div class="grid"><div><label>Dataset</label><select id="customDataset"><option value="employees">Employee Records</option><option value="history">Posting History</option><option value="vacancies">Vacancies</option><option value="orders">Orders & Correspondence</option><option value="retirement">Retirement Processing</option><option value="documents">Document Index</option><option value="servicebook">Service Book</option><option value="leave">Leave & Absence</option><option value="diary">Diary & Dispatch</option><option value="filemovement">File Movement</option><option value="reminders">Pending Work</option><option value="recruitment">Recruitment</option><option value="transfer">Transfer Planner</option><option value="returns">Monthly Returns</option></select></div><div><label>Filter field (optional)</label><select id="customField"><option value="">No filter</option></select></div><div><label>Contains / matches</label><input id="customValue" placeholder="Enter filter value"></div></div><div class="actions"><button type="button" class="primary" id="runCustomReport">Generate Report</button><button type="button" class="secondary" onclick="window.print()">Print / Save PDF</button><button type="button" class="success" id="exportCustomReport">Export Report CSV</button></div><p id="customReportMeta" class="note"></p><div class="table-wrap"><table class="module-table"><thead id="customHead"></thead><tbody id="customBody"></tbody></table></div>';
+ root.appendChild(reports);
+ const profile=document.createElement('section');profile.id='module-profile';profile.className='panel module-panel';
+ profile.innerHTML='<h2>Employee Profile & QR Code</h2><p class="note">Select an employee to print a compact profile. QR generation uses a client-side library loaded from a public CDN when internet is available; QR content is generated in the browser, not sent to a QR-generation service.</p><div class="grid"><div><label>Employee ID</label><input id="profileId" list="employeeIds" placeholder="Select / enter Employee ID"></div><div class="actions"><button type="button" class="primary" id="showProfile">Generate Profile</button><button type="button" class="secondary" onclick="printEmployeeProfile()">Print Employee Profile / Save PDF</button></div></div><div id="profileOutput"></div>';
+ root.appendChild(profile);
+ const draft=document.createElement('section');draft.id='module-orderdraft';draft.className='panel module-panel';
+ draft.innerHTML='<h2>Official Order & Letter Generator</h2><p class="note">Prepare editable official drafts using employee records. All drafts must be checked against the applicable rules, competent-authority approval and official references before issue.</p><div class="grid"><div><label>Document Template *</label><select id="draftType"><option value="General Official Letter">General Official Letter</option><option value="Office Order">Office Order</option><option value="Posting / Transfer Order">Posting / Transfer Order</option><option value="Appointment Order">Appointment Order</option><option value="Promotion Order">Promotion Order</option><option value="Relieving Order">Relieving Order</option><option value="Joining Report / Order">Joining Report / Order</option><option value="Retirement / Superannuation Order">Retirement / Superannuation Order</option><option value="Attachment Order">Attachment Order</option><option value="Memorandum">Memorandum</option><option value="Forwarding Letter">Forwarding Letter</option><option value="Show Cause Notice">Show Cause Notice</option><option value="Service Verification Letter">Service Verification Letter</option></select></div><div><label>Employee ID (optional)</label><input id="draftEmployee" list="employeeIds" placeholder="Select employee"></div><div><label>Letter / Order No.</label><input id="draftNumber" placeholder="To be allotted"></div><div><label>Date (DD/MM/YYYY)</label><input id="draftDate" placeholder="DD/MM/YYYY"></div><div><label>To / Recipient</label><input id="draftRecipient" placeholder="Name / designation / office"></div><div><label>Subject *</label><input id="draftSubject" placeholder="Enter subject"></div><div><label>Effective Date (if applicable)</label><input id="draftEffective" placeholder="DD/MM/YYYY"></div><div><label>Posting Place / Particulars</label><input id="draftPlace" placeholder="Place, post or details"></div><div><label>Reference / Authority</label><input id="draftAuthority" placeholder="Rule, order or letter reference"></div><div><label>Signatory Name</label><input id="draftSigner" placeholder="Name, if applicable"></div><div><label>Signatory Designation</label><input id="draftDesignation" value="Addl. Chief Medical & Health Officer (FW)"></div><div><label>Copy to (optional)</label><input id="draftCopy" placeholder="Copy recipients"></div></div><div><label>Additional facts / instructions</label><textarea id="draftDetails" rows="3" placeholder="Enter any approved details, reporting instructions, deadlines or enclosures."></textarea></div><div class="actions no-print"><button type="button" class="primary" id="generateDraft">Generate Document</button><button type="button" class="success" id="saveOfficialDraft">Save Draft</button><button type="button" class="secondary" id="printOfficialDraft">Print / Save PDF</button><button type="button" class="secondary" id="downloadOfficialDraft">Download .txt</button></div><div id="officialDraftStatus" class="note" aria-live="polite"></div><label for="draftOutput">Editable draft text</label><textarea id="draftOutput" rows="16" placeholder="Generate a document, then review and edit the draft here."></textarea><div id="officialDocPreview" class="official-document-preview" aria-label="Print preview of official document"></div><div class="no-print" style="margin-top:12px"><h3>Saved Drafts</h3><div id="officialDraftList" class="table-wrap"></div></div>';
+ root.appendChild(draft);
+ const audit=document.createElement('section');audit.id='module-audit';audit.className='panel module-panel';
+ audit.innerHTML='<h2>Data Change Audit Trail</h2><p class="note">Records changes made through this portal in this browser. This is not tamper-proof security logging.</p><div class="actions"><button type="button" class="secondary" id="exportAudit">Export Audit CSV</button></div><div class="table-wrap"><table class="module-table"><thead><tr><th>Date / Time</th><th>Action</th><th>Area</th><th>Record</th><th>Details</th></tr></thead><tbody id="auditBody"></tbody></table></div>';
+ root.appendChild(audit);
+}
+function logAudit(action,area,record,details){if(!moduleData.audit)return;moduleData.audit.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),timestamp:new Date().toISOString(),action,area,record,details});if(moduleData.audit.length>5000)moduleData.audit.length=5000;localStorage.setItem(MODULE_KEYS.audit,JSON.stringify(moduleData.audit));}
+function renderAdvancedModules(){
+ Object.entries(EXTRA_DEFS).forEach(([key,def])=>{const body=document.getElementById('xbody_'+key);if(!body)return;body.innerHTML='';moduleData[key].slice().reverse().forEach(r=>{const tr=document.createElement('tr');tr.innerHTML=def.fields.map(f=>'<td>'+esc(r[f[0]]||'')+'</td>').join('')+'<td class="no-print"><button class="danger" type="button">Delete</button></td>';tr.querySelector('button').addEventListener('click',()=>{if(confirm('Delete this entry?')){moduleData[key]=moduleData[key].filter(x=>x.id!==r.id);logAudit('DELETE',def.title,r.employeeId||r.id,'Register entry deleted');saveModule(key);}});body.appendChild(tr);});});
+ const cb=document.getElementById('calendarBody');if(cb){cb.innerHTML='';const now=todayLocal();data.filter(x=>x.dob&&calculateRetirementDate(x.dob,x.cat)).map(x=>({...x,retISO:normalizeDateISO(calculateRetirementDate(x.dob,x.cat))})).sort((a,b)=>a.retISO.localeCompare(b.retISO)).forEach(x=>{const d=parseISODate(x.retISO);const days=Math.round((d-now)/86400000);const tr=document.createElement('tr');tr.innerHTML=[x.employeeId,x.name,x.post,x.office,formatDateDisplay(x.retISO),days].map(v=>'<td>'+esc(v||'')+'</td>').join('');cb.appendChild(tr);});}
+ const fb=document.getElementById('forecastBody');if(fb){fb.innerHTML='';const counts={};data.forEach(x=>{const iso=retirementISO(x);if(iso){const yr=iso.slice(0,4);counts[yr]=(counts[yr]||0)+1;}});Object.keys(counts).sort().forEach(y=>{const tr=document.createElement('tr');tr.innerHTML='<td>'+esc(y)+'</td><td>'+counts[y]+'</td><td>'+counts[y]+'</td>';fb.appendChild(tr);});}
+ const ab=document.getElementById('auditBody');if(ab){ab.innerHTML='';(moduleData.audit||[]).slice(0,500).forEach(r=>{const tr=document.createElement('tr');tr.innerHTML=[new Date(r.timestamp).toLocaleString(),r.action,r.area,r.record,r.details].map(v=>'<td>'+esc(v||'')+'</td>').join('');ab.appendChild(tr);});}
+}
+function setupCustomReports(){
+ const ds=document.getElementById('customDataset'),fs=document.getElementById('customField');if(!ds||!fs)return;
+ const refreshFields=()=>{const rows=ds.value==='employees'?data:(moduleData[ds.value]||[]);const keys=[...new Set(rows.flatMap(x=>Object.keys(x)))].filter(k=>!['id','createdAt'].includes(k));fs.innerHTML='<option value="">No filter</option>'+keys.map(k=>'<option value="'+esc(k)+'">'+esc(k)+'</option>').join('');};
+ ds.addEventListener('change',refreshFields);refreshFields();
+ function reportRows(){const rows=ds.value==='employees'?data:(moduleData[ds.value]||[]);const key=fs.value,val=document.getElementById('customValue').value.trim().toLowerCase();return rows.filter(r=>!key||!val||String(r[key]??'').toLowerCase().includes(val));}
+ function draw(){const rows=reportRows(),head=document.getElementById('customHead'),body=document.getElementById('customBody');const keys=[...new Set(rows.flatMap(x=>Object.keys(x)))].filter(k=>!['id','createdAt'].includes(k));head.innerHTML='<tr>'+keys.map(k=>'<th>'+esc(k)+'</th>').join('')+'</tr>';body.innerHTML=rows.map(r=>'<tr>'+keys.map(k=>'<td>'+esc(r[k]??'')+'</td>').join('')+'</tr>').join('');document.getElementById('customReportMeta').textContent=rows.length+' record(s) in report.';return {rows,keys};}
+ document.getElementById('runCustomReport').addEventListener('click',draw);
+ document.getElementById('exportCustomReport').addEventListener('click',()=>{const {rows,keys}=draw();const csv=[keys.map(csvEscape).join(','),...rows.map(r=>keys.map(k=>csvEscape(r[k]??'')).join(','))].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='Dibrugarh_Custom_Report.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);});
+}
+function printEmployeeProfile(){
+ const output=document.getElementById('profileOutput');
+ if(!output || !output.querySelector('.panel')){alert('Please generate an employee profile first.');return;}
+ document.body.classList.add('print-profile-only');
+ window.print();
+}
+window.addEventListener('afterprint',()=>{document.body.classList.remove('print-profile-only');document.body.classList.remove('print-official-document-only')});
+function setupProfileAndDraft(){
+ document.getElementById('showProfile').addEventListener('click',()=>{const id=document.getElementById('profileId').value.trim();const x=data.find(r=>String(r.employeeId).toLowerCase()===id.toLowerCase());if(!x)return alert('Enter a valid Employee ID.');const out=document.getElementById('profileOutput');out.innerHTML='<div class="panel"><div class="office-masthead"><h2>OFFICE OF THE ADDL. CHIEF MEDICAL &amp; HEALTH OFFICER (FW) :: DIBRUGARH</h2><p>District: DIBRUGARH (ASSAM), PIN – 786001</p><p>Employee Service Profile</p></div><h3>'+esc(x.name)+'</h3><p><b>Employee ID:</b> '+esc(x.employeeId)+' &nbsp; <b>Post:</b> '+esc(x.post)+'</p><p><b>Category:</b> '+esc(x.cat)+' &nbsp; <b>Employment:</b> '+esc(x.empType)+'</p><p><b>Date of Birth:</b> '+esc(x.dob||'—')+' &nbsp; <b>Retirement:</b> '+esc(formatDateDisplay(calculateRetirementDate(x.dob,x.cat))||'—')+'</p><p><b>Joining:</b> '+esc(x.joining||'—')+' &nbsp; <b>Present Posting Date:</b> '+esc(x.postingDate||'—')+'</p><p><b>Current Posting:</b> '+esc(x.postingPlace)+' &nbsp; <b>Office:</b> '+esc(x.office||'—')+'</p><p><b>Attached:</b> '+esc(x.attached||'No')+' &nbsp; <b>Attachment Place:</b> '+esc(x.attachedPlace||'—')+'</p><p><b>Status:</b> '+esc(x.status||'—')+' &nbsp; <b>Order No.:</b> '+esc(x.orderNo||'—')+'</p><div id="employeeQr" style="margin:15px 0"></div><small>Generated from local browser records. Verify against official service records.</small></div>';const qr=document.getElementById('employeeQr');const payload=JSON.stringify({employeeId:x.employeeId,name:x.name,post:x.post,office:x.office||'',postingPlace:x.postingPlace||''});if(window.QRCode){new QRCode(qr,{text:payload,width:140,height:140});}else{qr.textContent='QR library unavailable offline. Employee ID: '+x.employeeId;}});
+ const draftStoreKey='dibrugarh_fw_official_drafts_v1';
+ function draftRecords(){try{const a=JSON.parse(localStorage.getItem(draftStoreKey)||'[]');return Array.isArray(a)?a:[]}catch(e){return[]}}
+ function currentDraft(){return {id:document.getElementById('officialDraftId')?.value||'',type:document.getElementById('draftType').value,employeeId:document.getElementById('draftEmployee').value.trim(),number:document.getElementById('draftNumber').value.trim(),date:document.getElementById('draftDate').value.trim(),recipient:document.getElementById('draftRecipient').value.trim(),subject:document.getElementById('draftSubject').value.trim(),effective:document.getElementById('draftEffective').value.trim(),place:document.getElementById('draftPlace').value.trim(),authority:document.getElementById('draftAuthority').value.trim(),signer:document.getElementById('draftSigner').value.trim(),designation:document.getElementById('draftDesignation').value.trim(),copy:document.getElementById('draftCopy').value.trim(),details:document.getElementById('draftDetails').value.trim(),text:document.getElementById('draftOutput').value,updatedAt:new Date().toISOString()}}
+ function updateOfficialPreview(){const t=document.getElementById('draftOutput').value;const p=document.getElementById('officialDocPreview');p.innerHTML='';if(!t.trim())return;const mast=document.createElement('div');mast.className='official-doc-masthead';mast.innerHTML='<strong>OFFICE OF THE ADDL. CHIEF MEDICAL &amp; HEALTH OFFICER (FW) :: DIBRUGARH</strong><div>District: DIBRUGARH (ASSAM), PIN – 786001</div><div>Health and Family Welfare Department</div><hr>';p.appendChild(mast);const content=document.createElement('div');content.className='official-doc-content';content.textContent=t;p.appendChild(content)}
+ function renderSavedDrafts(){const box=document.getElementById('officialDraftList');if(!box)return;const arr=draftRecords();if(!arr.length){box.innerHTML='<p class="note" style="padding:10px">No saved drafts yet. Saved drafts remain in this browser only.</p>';return;}box.innerHTML='<table class="module-table" style="min-width:750px"><thead><tr><th>Date saved</th><th>Type</th><th>Document No.</th><th>Subject</th><th>Action</th></tr></thead><tbody>'+arr.map(d=>'<tr><td>'+esc(new Date(d.updatedAt||Date.now()).toLocaleString())+'</td><td>'+esc(d.type||'')+'</td><td>'+esc(d.number||'—')+'</td><td>'+esc(d.subject||'')+'</td><td><button type="button" class="secondary" data-load-draft="'+esc(d.id)+'">Load</button> <button type="button" class="danger" data-delete-draft="'+esc(d.id)+'">Delete</button></td></tr>').join('')+'</tbody></table>';box.querySelectorAll('[data-load-draft]').forEach(b=>b.addEventListener('click',()=>{const d=draftRecords().find(x=>x.id===b.dataset.loadDraft);if(!d)return;const map={draftType:'type',draftEmployee:'employeeId',draftNumber:'number',draftDate:'date',draftRecipient:'recipient',draftSubject:'subject',draftEffective:'effective',draftPlace:'place',draftAuthority:'authority',draftSigner:'signer',draftDesignation:'designation',draftCopy:'copy',draftDetails:'details',draftOutput:'text'};Object.entries(map).forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.value=d[k]||''});let hid=document.getElementById('officialDraftId');if(!hid){hid=document.createElement('input');hid.type='hidden';hid.id='officialDraftId';document.getElementById('module-orderdraft').appendChild(hid)}hid.value=d.id;updateOfficialPreview();document.getElementById('officialDraftStatus').textContent='Loaded saved draft. Review before use.';}));box.querySelectorAll('[data-delete-draft]').forEach(b=>b.addEventListener('click',()=>{if(!confirm('Delete this saved draft?'))return;localStorage.setItem(draftStoreKey,JSON.stringify(draftRecords().filter(x=>x.id!==b.dataset.deleteDraft)));renderSavedDrafts()}))}
+ function nextOfficialDocumentNumber(){const year=new Date().getFullYear();let seq=1;const all=draftRecords().map(d=>String(d.number||''));const re=new RegExp('^HFW/DIB/ORD-LET/'+year+'/(\\d+)$');all.forEach(n=>{const m=n.match(re);if(m)seq=Math.max(seq,Number(m[1])+1)});return 'HFW/DIB/ORD-LET/'+year+'/'+String(seq).padStart(3,'0')}
+ document.getElementById('generateDraft').addEventListener('click',()=>{const id=document.getElementById('draftEmployee').value.trim();const x=data.find(r=>String(r.employeeId).toLowerCase()===id.toLowerCase());if(id&&!x)return alert('Employee ID not found.');const type=document.getElementById('draftType').value,date=document.getElementById('draftDate').value.trim()||formatDateDisplay(dateISOFromDate(todayLocal())),effective=document.getElementById('draftEffective').value.trim(),place=document.getElementById('draftPlace').value.trim(),authority=document.getElementById('draftAuthority').value.trim(),num=document.getElementById('draftNumber').value.trim()||nextOfficialDocumentNumber(),recipient=document.getElementById('draftRecipient').value.trim(),subject=document.getElementById('draftSubject').value.trim(),details=document.getElementById('draftDetails').value.trim(),signer=document.getElementById('draftSigner').value.trim(),designation=document.getElementById('draftDesignation').value.trim(),copy=document.getElementById('draftCopy').value.trim();if(!document.getElementById('draftNumber').value.trim())document.getElementById('draftNumber').value=num;if(!subject)return alert('Please enter a subject.');const name=x?x.name:'[Employee Name]',post=x?x.post:'[Designation]',empid=x?x.employeeId:'[Employee ID]',currentPlace=x?(x.postingPlace||x.office||'[Current place]'):'[Current place]';let body='';const person=name+' ('+empid+'), '+post;const detailsLine=details?'\n\n'+details:'';if(type==='General Official Letter'||type==='Forwarding Letter'||type==='Service Verification Letter'){body='To,\n'+(recipient||'[Recipient designation / office]')+'\n\nSubject: '+subject+'\n'+(authority?'Reference: '+authority+'\n':'')+'\nSir/Madam,\n\nWith reference to the subject cited above'+(authority?' and the reference mentioned above':'')+', this is to submit / inform that '+(x?person:'[relevant particulars]')+'. '+(type==='Forwarding Letter'?'The relevant documents are forwarded herewith for your kind information and necessary action.':type==='Service Verification Letter'?'The service particulars may kindly be verified with the official service records and the necessary certificate / confirmation communicated to this office.':'the matter is submitted for your kind information and necessary action.')+detailsLine+'\n\nThis issues with the approval of the competent authority, wherever applicable.\n\nYours faithfully,\n\n'+(signer||'________________________')+'\n'+(designation||'Addl. Chief Medical & Health Officer (FW)')+'\nDibrugarh'+(copy?'\n\nCopy to: '+copy+' for information / necessary action.':'');}else if(type==='Memorandum'||type==='Show Cause Notice'){body=type.toUpperCase()+'\nMemo No.: '+(num||'[To be allotted]')+'\nDate: '+date+'\n\nTo,\n'+(recipient||person)+'\n\nSubject: '+subject+'\n'+(authority?'Reference / Rule: '+authority+'\n':'')+'\nWhereas, the matter stated below requires your attention: '+(details||'[Insert verified facts and particulars]')+'\n\nYou are requested / directed to '+(type==='Show Cause Notice'?'submit your written explanation within [number] days of receipt of this notice. No conclusion shall be presumed before consideration of your reply.':'take necessary action in accordance with the applicable rules and instructions.')+'\n\nIssued with the approval of the competent authority, as applicable.\n\n'+(signer||'________________________')+'\n'+(designation||'Addl. Chief Medical & Health Officer (FW)')+'\nDibrugarh'+(copy?'\n\nCopy to: '+copy:'');}else{let action=type==='Posting / Transfer Order'?'is hereby transferred / posted':type==='Appointment Order'?'is appointed':type==='Promotion Order'?'is promoted':type==='Relieving Order'?'is hereby relieved from the present place of posting':type==='Joining Report / Order'?'has reported for joining / is permitted to join':type==='Retirement / Superannuation Order'?'is due to retire / superannuate':type==='Attachment Order'?'is hereby attached':'is hereby directed';body='DRAFT '+type.toUpperCase()+'\nOrder No.: '+(num||'[To be allotted]')+'\nDate: '+date+'\n\nSubject: '+subject+'\n\nIn pursuance of '+(authority||'[competent authority / applicable rule / reference]')+', the following is proposed: '+person+' '+action+(place?' at / to '+place:'')+(effective?' with effect from '+effective:'')+'.\n\n'+(type==='Retirement / Superannuation Order'?'The retirement date and service particulars must be verified against the official service book and applicable rules before issue.':type==='Relieving Order'?'The employee shall hand over charge and complete all prescribed formalities before being relieved, as applicable.':type==='Joining Report / Order'?'The date of actual assumption of charge shall be recorded and verified by the competent authority.':'The concerned office shall take necessary action and update the relevant establishment / service records.')+detailsLine+'\n\nThis draft is subject to verification of facts, applicable rules and approval by the competent authority.\n\nTo: '+(recipient||person)+'\n\n'+(signer||'________________________')+'\n'+(designation||'Addl. Chief Medical & Health Officer (FW)')+'\nDibrugarh'+(copy?'\n\nCopy to: '+copy:'');}document.getElementById('draftOutput').value=body;let hid=document.getElementById('officialDraftId');if(hid)hid.value='';updateOfficialPreview();document.getElementById('officialDraftStatus').textContent='Draft generated. Review all facts, dates, references and approval before issue.';});
+ document.getElementById('draftOutput').addEventListener('input',updateOfficialPreview);
+ document.getElementById('saveOfficialDraft').addEventListener('click',()=>{const d=currentDraft();if(!d.text.trim())return alert('Generate or enter a draft before saving.');if(!d.subject.trim())return alert('Please enter a subject before saving.');if(!d.id)d.id=Date.now().toString(36)+Math.random().toString(36).slice(2,7);const arr=draftRecords(),idx=arr.findIndex(x=>x.id===d.id);if(idx>=0)arr[idx]=d;else arr.unshift(d);localStorage.setItem(draftStoreKey,JSON.stringify(arr.slice(0,250)));let hid=document.getElementById('officialDraftId');if(!hid){hid=document.createElement('input');hid.type='hidden';hid.id='officialDraftId';document.getElementById('module-orderdraft').appendChild(hid)}hid.value=d.id;renderSavedDrafts();document.getElementById('officialDraftStatus').textContent='Draft saved locally in this browser. Back up the portal data separately.';logAudit('SAVE','Official Drafts',d.number||d.subject,'Official document draft saved');});
+ document.getElementById('printOfficialDraft').addEventListener('click',()=>{if(!document.getElementById('draftOutput').value.trim())return alert('Generate or enter a draft first.');updateOfficialPreview();document.body.classList.add('print-official-document-only');window.print()});
+ document.getElementById('downloadOfficialDraft').addEventListener('click',()=>{const text=document.getElementById('draftOutput').value;if(!text.trim())return alert('Generate or enter a draft first.');const blob=new Blob([text],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=((document.getElementById('draftNumber').value.trim()||'Draft')+'_Dibrugarh_Official_Document.txt').replace(/[^a-z0-9_.-]/gi,'_');a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+ renderSavedDrafts();
+ document.getElementById('exportAudit').addEventListener('click',()=>{const rows=moduleData.audit||[],keys=['timestamp','action','area','record','details'];const csv=[keys.join(','),...rows.map(r=>keys.map(k=>csvEscape(r[k]||'')).join(','))].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='Dibrugarh_Audit_Trail.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);});
+}
+
+function renderAdvancedDashboard(){
+ const box=document.getElementById('advancedDashboardStats');if(!box)return;
+ const now=new Date(),ym=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+ const retiring=data.filter(r=>{const d=parseISODate(calculateRetirementDate(r.dob,r.cat));return d&&d.getFullYear()===now.getFullYear()&&d.getMonth()===now.getMonth()&&d>=todayLocal()}).length;
+ const pendingFiles=(moduleData.filemovement||[]).filter(r=>!['Disposed','Closed'].includes(r.status));
+ const pendingWork=(moduleData.reminders||[]).filter(r=>!['Completed'].includes(r.status));
+ const highWork=pendingWork.filter(r=>['High','Urgent'].includes(r.priority));
+ const serviceThisMonth=(moduleData.servicebook||[]).filter(r=>String(r.eventDate||'').includes(ym)||String(normalizeDateISO(r.eventDate)||'').startsWith(ym)).length;
+ const ordersThisMonth=(moduleData.orders||[]).filter(r=>String(r.createdAt||'').startsWith(ym)||String(normalizeDateISO(r.date)||'').startsWith(ym)).length;
+ const stats=[['Retirements this month',retiring],['Pending files',pendingFiles.length],['Pending work items',pendingWork.length],['High / urgent tasks',highWork.length],['Service events this month',serviceThisMonth],['Orders entered this month',ordersThisMonth]];
+ box.innerHTML=stats.map(x=>'<div class="stat-card"><strong>'+esc(x[1])+'</strong><span>'+esc(x[0])+'</span></div>').join('');
+ const pf=document.getElementById('dashboardPendingFiles');if(pf)pf.innerHTML=pendingFiles.length?'<ul>'+pendingFiles.slice(0,5).map(r=>'<li><b>'+esc(r.fileNo||'File')+'</b> — '+esc(r.subject||'No subject')+' <small>('+esc(r.status||'Pending')+')</small></li>').join('')+'</ul><small>Showing up to 5 active files.</small>':'No active file movements recorded.';
+ const pw=document.getElementById('dashboardPendingWork');if(pw)pw.innerHTML=pendingWork.length?'<ul>'+pendingWork.slice().sort((a,b)=>({Urgent:0,High:1,Normal:2,Low:3}[a.priority]??4)-({Urgent:0,High:1,Normal:2,Low:3}[b.priority]??4)).slice(0,5).map(r=>'<li><b>'+esc(r.task||'Pending task')+'</b> — '+esc(r.assignedTo||'Unassigned')+' <small>('+esc(r.priority||'Normal')+')</small></li>').join('')+'</ul><small>Showing up to 5 active tasks.</small>':'No pending work recorded.';
+ const se=document.getElementById('dashboardServiceEvents');if(se)se.textContent=serviceThisMonth+' service-book event(s) entered this month.';
+}
+
+buildExtraModuleUI();
+setupCustomReports();
+setupProfileAndDraft();
+populateRetirementYears();
+render();
+renderModules();
+renderAdvancedModules();
+renderAdvancedDashboard();
+
+function logoutHRMIS(){
+  sessionStorage.removeItem(LOGIN_SESSION_KEY);
+  document.getElementById("loginForm").reset();
+  document.getElementById("loginError").style.display = "none";
+  showLogin();
+}
+
+</script>
+
+<script>
+const SANCTIONED_POST_SOURCE = [{"no":1,"institution":"Aithan Dighola Gaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":2,"institution":"Bam Kolakhowa","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/Pt/10 Dated 31-05-1983","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":253,"institution":"BARBARUAH BPHC","block":"Barbaruah","post":"BEE","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"VACCANT"},{"no":259,"institution":"BARBARUAH BPHC","block":"Barbaruah","post":"Computor","sanctionNo":"HLB/FP-1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":265,"institution":"BARBARUAH BPHC","block":"Barbaruah","post":"Driver","sanctionNo":"HLA 958/85/82 Dated 11-12-1986","category":"Main Centre","sourceStatus":"VACCANT"},{"no":276,"institution":"BARBARUAH BPHC","block":"Barbaruah","post":"Sr  M&HO","sanctionNo":"HLA 100/72/26 Dated 30-12-1972","category":"Main Centre","sourceStatus":"VACCANT"},{"no":282,"institution":"BARBARUAH BPHC","block":"Barbaruah","post":"UDA","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":3,"institution":"Barbaruah PHC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA279/84/28 Dated 20-04-1985","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":289,"institution":"Barbaruah PHC","block":"Barbaruah","post":"LHV","sanctionNo":"HLA 175/82/Pt/29 Datred 30/08/1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":290,"institution":"Barbaruah PHC","block":"Barbaruah","post":"LHV","sanctionNo":"HLA 175/82/Pt/29 Datred 30/08/1983","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":291,"institution":"Barbaruah PHC","block":"Barbaruah","post":"LHV","sanctionNo":"HLA 175/82/Pt/29 Datred 30/08/1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":292,"institution":"Barbaruah PHC","block":"Barbaruah","post":"LHV","sanctionNo":"HLA 175/82/Pt/29 Datred 30/08/1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":288,"institution":"Barbaruah PHC (Main Centre)","block":"Barbaruah","post":"LHV","sanctionNo":"HLA 279/84/28 Dated 20-04-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":4,"institution":"Benoigutia","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":5,"institution":"Bhogamur HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/413 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":6,"institution":"Bogibil Chaulkhowa HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/802/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":7,"institution":"Bokpara HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":8,"institution":"Bordoibam","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/802/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":9,"institution":"Borpathar Kakotigaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/802/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":10,"institution":"Borpathar Khoniagaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":11,"institution":"Burahaja","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":12,"institution":"Changmai Gohain Gaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":13,"institution":"Chiring Gaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":14,"institution":"Dainijan HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/413 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":15,"institution":"Dewanbari Koibotra Gaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/Pt/10 Dated 31-05-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":16,"institution":"Dibrugarh State Disp.","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 322/77/238 Dated 11-11-1982","category":"MCH Centre","sourceStatus":"IN POSITION"},{"no":17,"institution":"Dibrumukh State Disp.","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 322/77/238 Dated 11-11-1982","category":"MCH Centre","sourceStatus":"IN POSITION"},{"no":18,"institution":"Dibruwalgaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":19,"institution":"Garudhoria","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":20,"institution":"Ghoronia HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":21,"institution":"Gochemara HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":22,"institution":"Goripur","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":23,"institution":"Hatimora gaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":24,"institution":"Itakhula HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/Pt/10 Dated 31-05-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":25,"institution":"Jamira Teporgaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":26,"institution":"Jokai Borbill HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":27,"institution":"Jokai Deorigaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/Pt/10 Dated 31-05-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":28,"institution":"Jokai Forest Koibatra HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":29,"institution":"Jokai SatishGhoria HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/12 Dated 11-08-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":30,"institution":"Kacharbari HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/802/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":31,"institution":"Kamakhya HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/12 Dated 11-08-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":32,"institution":"Khamtighat HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/802/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":33,"institution":"Khonikar HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":34,"institution":"Kumaronichiga","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/413 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":35,"institution":"Kutuha Nagaon","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":36,"institution":"Lekai HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":37,"institution":"Lepetcotta Kacharigaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/413 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":38,"institution":"Lezai","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/413 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":39,"institution":"Modhya Borpathar HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":40,"institution":"Mohmarigaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":41,"institution":"Namoni BorPathar","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/802/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":42,"institution":"Natun Bolai HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/802/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":43,"institution":"Natungaon","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":44,"institution":"Nirmaligaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/413 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":45,"institution":"Niz Mancotta HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/82/Pt/10 Dated 31-05-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":46,"institution":"Puharikhonia HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":47,"institution":"Sawjan HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":48,"institution":"Thengalgaon HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 26-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":49,"institution":"Tinsukia gaon","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":50,"institution":"Ulum HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":51,"institution":"Wakehabi (Bogibil) HWC","block":"Barbaruah","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":225,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Addl. Chief Medical & Health Officer","sanctionNo":"MPH 225/63/73 Dated 24-04-1964","category":"DFWB","sourceStatus":"VACCANT"},{"no":226,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Artist cum Photographer","sanctionNo":"HLB/FP/19/69/Pt-22 Dated 06-07-1977","category":"DFWB","sourceStatus":"VACCANT"},{"no":227,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"D.I.O","sanctionNo":"HLA/995/86/10 Dated 26-09-1986","category":"DFWB","sourceStatus":"IN POSITION"},{"no":228,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"D.P.H.N.S","sanctionNo":"HLA 395/97/232 Dated 12-12-1980","category":"DFWB","sourceStatus":"VACCANT"},{"no":229,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Deputy Media & Extesion Officer","sanctionNo":"HLB.FP.19/69/Pt/22 dated 06-07-1977","category":"DFWB","sourceStatus":"IN POSITION"},{"no":230,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Deputy Media & Extesion Officer","sanctionNo":"HLB.FP.19/69/Pt/22 dated 06-07-1977","category":"DFWB","sourceStatus":"VACCANT"},{"no":231,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"District Media & Extension Officer","sanctionNo":"HLB/FP/819/69/Pt Dated 06-07-1977","category":"DFWB","sourceStatus":"IN POSITION"},{"no":232,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Driver","sanctionNo":"HLA 958/85/82 Dated 11-12-1986","category":"DFWB","sourceStatus":"VACCANT"},{"no":233,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Driver","sanctionNo":"HLA 958/85/82 Dated 11-12-1986","category":"DFWB","sourceStatus":"IN POSITION"},{"no":234,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Driver","sanctionNo":"HLA 958/85/82 Dated 11-12-1986","category":"DFWB","sourceStatus":"VACCANT"},{"no":235,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Driver","sanctionNo":"HLA 958/85/82 Dated 11-12-1986","category":"DFWB","sourceStatus":"IN POSITION"},{"no":236,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Driver","sanctionNo":"HLA 958/85/82 Dated 11-12-1986","category":"DFWB","sourceStatus":"IN POSITION"},{"no":237,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Field & Evaluation Worker","sanctionNo":"HLB/99/62/72 Dated 06-07-1977","category":"DFWB","sourceStatus":"IN POSITION"},{"no":238,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"GRADE IV","sanctionNo":"HLB/FP/19/69/Pt Dated 06-07-1977","category":"DFWB","sourceStatus":"IN POSITION"},{"no":239,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"GRADE IV","sanctionNo":"HLB/FP/19/69/Pt Dated 06-07-1977","category":"DFWB","sourceStatus":"IN POSITION"},{"no":240,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"GRADE IV","sanctionNo":"HLB/FP-27/69/112 Dated 26-04-1972","category":"DFWB","sourceStatus":"IN POSITION"},{"no":241,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"GRADE IV","sanctionNo":"HLB FP/19/69/Pt-22 Dated 06-07-1977","category":"DFWB","sourceStatus":"IN POSITION"},{"no":242,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"L.D.A","sanctionNo":"HLB/FP-19/69/Pt/22 Datd 06-07-1977","category":"DFWB","sourceStatus":"VACCANT"},{"no":243,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"L.D.A (UIP)","sanctionNo":"HLA/995/86/10 Dated 26-09-1986","category":"DFWB","sourceStatus":"VACCANT"},{"no":244,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Projectionist","sanctionNo":"HLB/FP-19/69/Pt/22 Datd 06-07-1977","category":"DFWB","sourceStatus":"IN POSITION"},{"no":245,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Refrigerator Mechanic","sanctionNo":"HLA/995/86/10 Dated 26-09-1986","category":"DFWB","sourceStatus":"IN POSITION"},{"no":246,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"S.I (FW)","sanctionNo":"HLB/FP-19/69/Pt/22 Datd 06-07-1977","category":"DFWB","sourceStatus":"VACCANT"},{"no":247,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"S.I. (U.I.P)","sanctionNo":"HLA/995/86/10 Dated 26-09-1986","category":"DFWB","sourceStatus":"VACCANT"},{"no":248,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"Steno Cum Typist","sanctionNo":"HLB/FP-27/69/112 dated 28-04-1972","category":"DFWB","sourceStatus":"VACCANT"},{"no":249,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"U.D.A (Asstt Accountant)","sanctionNo":"MPH/54/60/Pt Dated 05-05-1972","category":"DFWB","sourceStatus":"IN POSITION"},{"no":250,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"U.D.A (Cashier)","sanctionNo":"HLB/FP/27/69/Pt/A/10 Dated 06-11-1971","category":"DFWB","sourceStatus":"IN POSITION"},{"no":251,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"U.D.A (Esstt)","sanctionNo":"MPH/99/62/72 Dated 03-02-1964","category":"DFWB","sourceStatus":"IN POSITION"},{"no":252,"institution":"Office of the Addl. CM & HO (FW), Dibrugarh","block":"DFWB","post":"U.D.A (Store)","sanctionNo":"HLA 258/74/Pt/36 Dated 29-11-1977","category":"DFWB","sourceStatus":"IN POSITION"},{"no":52,"institution":"1 No Charaihabi","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":53,"institution":"Balliyari Gohain Gaon","block":"Khowang","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":54,"institution":"Bamunbari","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":55,"institution":"Bholukaguri","block":"Khowang","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":56,"institution":"Borpathar","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":57,"institution":"Buri Khowang","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":58,"institution":"Chaharikota","block":"Khowang","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":59,"institution":"Chenemari Nawjan","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":60,"institution":"Chilchili Demokinar","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":61,"institution":"Dhemeshi","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":62,"institution":"Dikhari Kinar","block":"Khowang","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":63,"institution":"Dumardolong","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":64,"institution":"Ghugoloni","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":65,"institution":"Gojpuria","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":66,"institution":"Haldhibari Nagar","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":67,"institution":"Hilputa St. Disp. (Sessughat MPHC)","block":"Khowang","post":"ANM","sanctionNo":"HLA 322/77/238 Dated 11-11-1982","category":"MCH Centre","sourceStatus":"VACCANT"},{"no":68,"institution":"Hunghungia","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":69,"institution":"Jhulum","block":"Khowang","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":70,"institution":"Joriguri","block":"Khowang","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":71,"institution":"Kathalguri","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":72,"institution":"Khowang","block":"Khowang","post":"ANM","sanctionNo":"HLA 322/77/238 Dated 11-11-1982","category":"MCH Centre","sourceStatus":"VACCANT"},{"no":73,"institution":"Khowang","block":"Khowang","post":"ANM","sanctionNo":"HLA 322/77/238 Dated 11-11-1982","category":"MCH Centre","sourceStatus":"IN POSITION"},{"no":254,"institution":"KHOWANG BPHC","block":"Khowang","post":"BEE","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"VACCANT"},{"no":260,"institution":"KHOWANG BPHC","block":"Khowang","post":"Computor","sanctionNo":"HLB/FP-1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":266,"institution":"KHOWANG BPHC","block":"Khowang","post":"Driver","sanctionNo":"HLA 958/85/82 Dated 11-12-1986","category":"Main Centre","sourceStatus":"VACCANT"},{"no":271,"institution":"KHOWANG BPHC","block":"Khowang","post":"FW","sanctionNo":"HLB.FP.2/69/74 Dated 25-10-1970","category":"Main Centre","sourceStatus":"VACCANT"},{"no":274,"institution":"KHOWANG BPHC","block":"Khowang","post":"GRADE IV","sanctionNo":"HLA 62/67/23 Dated 12-05-1969","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":275,"institution":"KHOWANG BPHC","block":"Khowang","post":"GRADE IV","sanctionNo":"HLA 62/67/23 Dated 12-05-1969","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":277,"institution":"KHOWANG BPHC","block":"Khowang","post":"Sr  M&HO","sanctionNo":"HLB/FP-1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"VACCANT"},{"no":283,"institution":"KHOWANG BPHC","block":"Khowang","post":"UDA","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":74,"institution":"Khowang PHC","block":"Khowang","post":"ANM","sanctionNo":"HLA279/84/28 Dated 20-04-1985","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":293,"institution":"Khowang PHC","block":"Khowang","post":"LHV","sanctionNo":"HLA 175/82/Pt/29 Datred 30/08/1983","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":294,"institution":"Khowang PHC","block":"Khowang","post":"LHV","sanctionNo":"HLA 175/82/Pt/29 Datred 30/08/1983","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":295,"institution":"Khowang PHC (Moran SD)","block":"Khowang","post":"LHV","sanctionNo":"HLA 175/82/Pt/29 Datred 30/08/1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":75,"institution":"Kolowlowa Sonowal Gaon","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":76,"institution":"Komoldoi Rongagorah","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":77,"institution":"Lengeri Model Hospital.","block":"Khowang","post":"ANM","sanctionNo":"HLA 322/77/238 Dated 11-11-1982","category":"MCH Centre","sourceStatus":"IN POSITION"},{"no":78,"institution":"Lukumai","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":79,"institution":"Meshlow Bharali","block":"Khowang","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":80,"institution":"Moran SD","block":"Khowang","post":"ANM","sanctionNo":"HLA 322/77/238 Dated 11-11-1982","category":"MCH Centre","sourceStatus":"IN POSITION"},{"no":81,"institution":"Moran SD","block":"Khowang","post":"ANM","sanctionNo":"HLB/FP-2/69/74 Dated 25-10-1970","category":"Old SC","sourceStatus":"VACCANT"},{"no":82,"institution":"Nakhat","block":"Khowang","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":83,"institution":"Podumoni","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":84,"institution":"Purani Hologuri","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":85,"institution":"Rangchali","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":86,"institution":"Sarupathar","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":87,"institution":"Sensua Pukhuri","block":"Khowang","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":88,"institution":"Sepon Chakolia","block":"Khowang","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":89,"institution":"Tengapani","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":90,"institution":"Tetonbari","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/Pt/29 Dated 30-08-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":91,"institution":"Tiliki Amguri","block":"Khowang","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":92,"institution":"Tiloinagar","block":"Khowang","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":93,"institution":"Tinthengia (MPHC)","block":"Khowang","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":94,"institution":"Torajan","block":"Khowang","post":"ANM","sanctionNo":"HLA 165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":95,"institution":"Alimur HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":96,"institution":"Athabari HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":97,"institution":"Bogoritolia","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":98,"institution":"Bokul Majgaon","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":99,"institution":"Bongalgaon","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":100,"institution":"Borsaikia","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":101,"institution":"Chagolikata","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":102,"institution":"Chaulkhowa HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":103,"institution":"Chiringhula HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":104,"institution":"Dhupabor Maijan HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":105,"institution":"Dikom Sessa","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":106,"institution":"Genichuk HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":107,"institution":"Ghoramora State Disp.","block":"Lahowal","post":"ANM","sanctionNo":"HLA 322/77/238 Dated 11-11-1982","category":"MCH Centre","sourceStatus":"IN POSITION"},{"no":108,"institution":"Gohain Gaon","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":109,"institution":"Hatakhola HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":110,"institution":"Hiloidhari HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":111,"institution":"Japihujia(converted to Kachuwani)","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":112,"institution":"Jiliguri","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":113,"institution":"Kanai Goruchara HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":114,"institution":"Konwari Pathar HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":255,"institution":"LAHOWAL BPHC","block":"Lahowal","post":"BEE","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":261,"institution":"LAHOWAL BPHC","block":"Lahowal","post":"Computor","sanctionNo":"HLA 258/74/Pt Dated 26-09-1976","category":"Main Centre","sourceStatus":"VACCANT"},{"no":267,"institution":"LAHOWAL BPHC","block":"Lahowal","post":"Driver","sanctionNo":"HLA 958/85/82 Dated 11-12-1986","category":"Main Centre","sourceStatus":"VACCANT"},{"no":278,"institution":"LAHOWAL BPHC","block":"Lahowal","post":"Sr  M&HO","sanctionNo":"HLB/FP-1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":284,"institution":"LAHOWAL BPHC","block":"Lahowal","post":"UDA","sanctionNo":"HLB/FP 27/69/Pt/10 Dated 06-11-1971","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":115,"institution":"Lahowal PHC","block":"Lahowal","post":"ANM","sanctionNo":"HLA279/84/28 Dated 20-04-1985","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":296,"institution":"Lahowal PHC","block":"Lahowal","post":"LHV","sanctionNo":"HLA 165/82/Pt/10 Dated 31-03-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":297,"institution":"Lahowal PHC","block":"Lahowal","post":"LHV","sanctionNo":"HLA 165/82/Pt/10 Dated 31-03-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":298,"institution":"Lahowal PHC","block":"Lahowal","post":"LHV","sanctionNo":"HLA 165/82/43 Dated 27-02-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":116,"institution":"Lodoni","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":117,"institution":"Longsual HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":118,"institution":"Maijan","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":119,"institution":"Miripathar HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":120,"institution":"Modarkhat","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":121,"institution":"Niz-Kodomoni HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":122,"institution":"Nogagholi","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":123,"institution":"Phukanarkhat","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":124,"institution":"Phutahula HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":125,"institution":"Sonipatia","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":126,"institution":"Telpani","block":"Lahowal","post":"ANM","sanctionNo":"HLA 165/82/170 Dated 19-12-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":127,"institution":"Tita dimaru HWC","block":"Lahowal","post":"ANM","sanctionNo":"HLA 279/84/28 Dated 26-07-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":128,"institution":"Aghunibari HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 116511/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":129,"institution":"Baghmora HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 875/31/23 Dated 23-03-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":130,"institution":"Balimora","block":"Naharani","post":"ANM","sanctionNo":"HLA/1187/86/23 Dated 11-09-1987","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":131,"institution":"Borbam HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":132,"institution":"Borbam No. 1","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":133,"institution":"Dhaman Salmari","block":"Naharani","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":134,"institution":"Dhekioni","block":"Naharani","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":135,"institution":"Digholi (Majkopohua) HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 116511/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":136,"institution":"Digholibil Gaon","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":137,"institution":"Dilli Duwonia","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":138,"institution":"Dolopa HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1187/86/23 Dated 11-09-1987","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":139,"institution":"Forest Village HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1188/86/86 Dated 29-02-1988","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":140,"institution":"Gerekoni HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1187/86/23 Dated 11-09-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":141,"institution":"Gojpuria HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 116511/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":142,"institution":"Gorsiga HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 175/82/Pt/29 Dated 30-08-83","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":143,"institution":"Halua Gaon HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":144,"institution":"Hapjan Chariali HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 875/31/23 Dated 23-03-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":145,"institution":"Kalyanpur HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":146,"institution":"Kawoimari HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1188/86/86 Dated 29-02-1988","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":147,"institution":"KekuriGaon HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":148,"institution":"Komargaon HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":149,"institution":"Kumarsuk HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 875/31/23 Dated 23-03-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":150,"institution":"Longjong HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 116511/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":151,"institution":"Mahmora HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":152,"institution":"Mathawani HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/182/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":153,"institution":"Nachani. No. 1 HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 175/82/Pt/29 Dated 30-08-83","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":256,"institution":"NAHARANI BPHC","block":"Naharani","post":"BEE","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"VACCANT"},{"no":262,"institution":"NAHARANI BPHC","block":"Naharani","post":"Computor","sanctionNo":"HLB/FP-1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":268,"institution":"NAHARANI BPHC","block":"Naharani","post":"Driver","sanctionNo":"HLA-66/88/3 Dated 01-12-1988","category":"Main Centre","sourceStatus":"VACCANT"},{"no":279,"institution":"NAHARANI BPHC","block":"Naharani","post":"Sr  M&HO","sanctionNo":"HLB/FP-1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"VACCANT"},{"no":285,"institution":"NAHARANI BPHC","block":"Naharani","post":"UDA","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"VACCANT"},{"no":299,"institution":"Naharani PHC","block":"Naharani","post":"LHV","sanctionNo":"HLA 165/82/43 Dated 27-02-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":300,"institution":"Naharani PHC","block":"Naharani","post":"LHV","sanctionNo":"HLA 165/82/43 Dated 27-02-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":301,"institution":"Naharani PHC","block":"Naharani","post":"LHV","sanctionNo":"HLA 165/82/43 Dated 27-02-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":154,"institution":"Naharpara Borbil HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1188/86/86 Dated 29-02-1988","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":155,"institution":"Nahorani PHC","block":"Naharani","post":"ANM","sanctionNo":"HLA279/84/28 Dated 20-04-1985","category":"Main Centre","sourceStatus":"VACCANT"},{"no":156,"institution":"Nahula HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1187/86/23 Dated 11-09-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":157,"institution":"Namphakial HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 116511/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":158,"institution":"Namrup","block":"Naharani","post":"ANM","sanctionNo":"HLA 116511/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":159,"institution":"Namrup grant HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 175/82/Pt/29 Dated 30-08-83","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":160,"institution":"Nemopathar HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 875/31/23 Dated 23-03-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":161,"institution":"Nigam","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":162,"institution":"Nogaghat HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1187/86/23 Dated 11-09-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":163,"institution":"Ouguri HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":164,"institution":"Panidhoria HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 875/31/23 Dated 23-03-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":165,"institution":"Rajgarh Rongali HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":166,"institution":"Ratanpur HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1165/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":167,"institution":"Rongabononi HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1188/86/86 Dated 29-02-1988","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":168,"institution":"Sagunesua HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1188/86/86 Dated 29-02-1988","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":169,"institution":"Sapkait HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1188/86/86 Dated 29-02-1988","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":170,"institution":"Sessa Nepali HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA/1187/86/23 Dated 11-09-1987","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":171,"institution":"Shishumora Borpathar HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 175/82/Pt/29 Dated 30-08-83","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":172,"institution":"Sukhani","block":"Naharani","post":"ANM","sanctionNo":"HLA 116511/82/43 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":173,"institution":"Udoipur HWC","block":"Naharani","post":"ANM","sanctionNo":"HLA 1181/86/04 Dated 20-12-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":174,"institution":"Balijan Moricha HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":175,"institution":"Bamunia Hiloidhari HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":176,"institution":"Bhorulua HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":177,"institution":"Bindha kata HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":178,"institution":"Bishmile HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":179,"institution":"Chabua Urban","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":180,"institution":"Dinjoy Satra Chapari HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":181,"institution":"Dodhia Kuligaon","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":182,"institution":"Dodhia Rongmola","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":183,"institution":"Gerehi Nepali","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":184,"institution":"Hatigadhoi HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":185,"institution":"Koilabari HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":186,"institution":"Kopohua HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":187,"institution":"Pakharijania HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":257,"institution":"PANITOLA  BPHC","block":"Panitola","post":"BEE","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"VACCANT"},{"no":263,"institution":"PANITOLA  BPHC","block":"Panitola","post":"Computor","sanctionNo":"HLB/FP-1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":269,"institution":"Panitola BPHC","block":"Panitola","post":"Driver","sanctionNo":"HLA 958/85/82 Dated 11-12-1986","category":"Main Centre","sourceStatus":"VACCANT"},{"no":280,"institution":"Panitola BPHC","block":"Panitola","post":"Sr  M&HO","sanctionNo":"HLB/FP-1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"VACCANT"},{"no":286,"institution":"Panitola BPHC","block":"Panitola","post":"UDA","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":188,"institution":"Panitola PHC","block":"Panitola","post":"ANM","sanctionNo":"HLA279/84/28 Dated 20-04-1985","category":"Main Centre","sourceStatus":"VACCANT"},{"no":302,"institution":"Panitola PHC","block":"Panitola","post":"LHV","sanctionNo":"HLA 785/3/23 Dated 20-05-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":303,"institution":"Panitola PHC","block":"Panitola","post":"LHV","sanctionNo":"HLA 785/3/23 Dated 20-05-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":304,"institution":"Panitola PHC","block":"Panitola","post":"LHV","sanctionNo":"HLA 785/3/23 Dated 20-05-1982","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":189,"institution":"Pukhurijan HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":190,"institution":"Pulunga HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":191,"institution":"Sessakash HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":192,"institution":"Udalguri (Chabua) HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":193,"institution":"Udalguri Digholibari HWC","block":"Panitola","post":"ANM","sanctionNo":"HLA 50/90/102 Dated 24-03-1990","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":194,"institution":"Bojaloni","block":"Tengakhat","post":"ANM","sanctionNo":"HLA.148/86/9 Dated 28-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":195,"institution":"Borbam  No.-2 HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 165/82/413 Dated 21-07-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":196,"institution":"Borhula HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 279/84/281 Dated 20-02-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":197,"institution":"Chalakotoki","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 279/84/281 Dated 20-02-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":198,"institution":"Chenibill HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA.148/86/9 Dated 28-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":199,"institution":"Dhekiajan Kothalguri HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 165/82/Pt/10 Dated 31-05-1983","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":200,"institution":"Dhoria HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 279/84/57 Dated 29-03-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":201,"institution":"Digmoimukh HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA.148/86/9 Dated 28-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":202,"institution":"Dihinghula","block":"Tengakhat","post":"ANM","sanctionNo":"HLA.148/86/9 Dated 28-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":203,"institution":"Gozalbasti HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 279/84/281 Dated 20-02-1985","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":204,"institution":"Hatibondha","block":"Tengakhat","post":"ANM","sanctionNo":"HLB/FP-2/69/89 Dated 17-12-1972","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":205,"institution":"Hatijan HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 165/82/Pt/10 Dated 31-05-1983","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":206,"institution":"Kacharipathar SC","block":"Tengakhat","post":"ANM","sanctionNo":"HLB/FP-2/69/74 Dated 25-10-1970","category":"Old SC","sourceStatus":"IN POSITION"},{"no":207,"institution":"Kachogaon HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 165/82/Pt/10 Dated 31-05-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":208,"institution":"Khermia HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 279/84/57 Dated 29-03-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":209,"institution":"Kopohua HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":210,"institution":"Kothalguri HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 279/84/57 Dated 29-03-1986","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":211,"institution":"Merbill HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":212,"institution":"Modhuting Bongali","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 279/84/57 Dated 29-03-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":213,"institution":"Naharkotia Bamungaon HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA.148/86/9 Dated 28-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":214,"institution":"Nahulia HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":215,"institution":"Nakari HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":216,"institution":"Pabhojan HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 165/82/Pt/10 Dated 31-05-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":217,"institution":"Pandhowa HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA.148/86/9 Dated 28-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":218,"institution":"Rongagorah","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 279/84/281 Dated 20-02-1985","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":219,"institution":"Sarupathar","block":"Tengakhat","post":"ANM","sanctionNo":"HLA 279/84/57 Dated 29-03-1986","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":220,"institution":"Sissia Bokuloni SC","block":"Tengakhat","post":"ANM","sanctionNo":"HLB/FP-2/69/74 Dated 25-10-1970","category":"Old SC","sourceStatus":"IN POSITION"},{"no":258,"institution":"TENGAKHAT BPHC","block":"Tengakhat","post":"BEE","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":264,"institution":"TENGAKHAT BPHC","block":"Tengakhat","post":"Computor","sanctionNo":"HLB/FP-1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"VACCANT"},{"no":270,"institution":"TENGAKHAT BPHC","block":"Tengakhat","post":"Driver","sanctionNo":"HLA 958/85/82 Dated 11-12-1986","category":"Main Centre","sourceStatus":"VACCANT"},{"no":272,"institution":"TENGAKHAT BPHC","block":"Tengakhat","post":"FW","sanctionNo":"HLB.FP.2/69/74 Dated 25-10-1970","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":273,"institution":"TENGAKHAT BPHC","block":"Tengakhat","post":"FW","sanctionNo":"HLB.FP.2/69/74 Dated 25-10-1970","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":281,"institution":"TENGAKHAT BPHC","block":"Tengakhat","post":"Sr  M&HO","sanctionNo":"HLB/FP-1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":287,"institution":"TENGAKHAT BPHC","block":"Tengakhat","post":"UDA","sanctionNo":"HLB FP/1/69/369 Dated 28-02-1973","category":"Main Centre","sourceStatus":"IN POSITION"},{"no":221,"institution":"Tengakhat PHC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA279/84/28 Dated 20-04-1985","category":"Main Centre","sourceStatus":"VACCANT"},{"no":305,"institution":"Tengakhat PHC","block":"Tengakhat","post":"LHV","sanctionNo":"HLA 785/3/23 Dated 20-05-1982","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":306,"institution":"Tengakhat PHC","block":"Tengakhat","post":"LHV","sanctionNo":"HLA 185/82/Pt/10 Dated 01-05-1983","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":222,"institution":"Torajan Requisition Grant(Betoni)","block":"Tengakhat","post":"ANM","sanctionNo":"HLA.148/86/9 Dated 28-02-1987","category":"Sub Centre","sourceStatus":"IN POSITION"},{"no":223,"institution":"Ushapur","block":"Tengakhat","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"VACCANT"},{"no":224,"institution":"Wilton Grant HWC","block":"Tengakhat","post":"ANM","sanctionNo":"HLA1181/86/45 Dated 28-02-1989","category":"Sub Centre","sourceStatus":"VACCANT"}];
+function ssNorm(v){return String(v??"").normalize("NFKC").trim().toLocaleLowerCase().replace(/\s+/g," ");}
+function ssGroupKey(r){return [ssNorm(r.block),ssNorm(r.institution),ssNorm(r.post)].join("|");}
+function ssActiveEmployee(e){return !["retired","contract ended"].includes(ssNorm(e.status));}
+function ssBuildRows(){
+ const groups=new Map();
+ for(const r of SANCTIONED_POST_SOURCE){
+  const k=ssGroupKey(r);
+  if(!groups.has(k))groups.set(k,{block:r.block,institution:r.institution,post:r.post,sanctioned:0,sourceIn:0,sourceVacant:0,sourceStatuses:[],sanctionNos:[]});
+  const g=groups.get(k);g.sanctioned++;
+  if(ssNorm(r.sourceStatus)==="in position")g.sourceIn++;
+  if(["vaccant","vacant"].includes(ssNorm(r.sourceStatus)))g.sourceVacant++;
+  if(r.sourceStatus&&!g.sourceStatuses.includes(r.sourceStatus))g.sourceStatuses.push(r.sourceStatus);
+  if(r.sanctionNo&&!g.sanctionNos.includes(r.sanctionNo))g.sanctionNos.push(r.sanctionNo);
+ }
+ return [...groups.values()].map(g=>{
+  // The uploaded sanctioned-post statement is the authoritative baseline: each
+  // row is marked IN POSITION or VACCANT. Do not replace these totals by trying
+  // to match employee posting names, which can differ from institution names.
+  g.inPosition=g.sourceIn;
+  g.vacant=g.sourceVacant;
+  g.over=0;
+  g.sourceStatusMismatch=false;
+  return g;
+ }).sort((a,b)=>a.block.localeCompare(b.block)||a.institution.localeCompare(b.institution)||a.post.localeCompare(b.post));
+}
+function ssInitFilters(){
+ const b=document.getElementById("sanctionBlockFilter"),p=document.getElementById("sanctionPostFilter");
+ if(b&&b.dataset.ready!=="1"){
+  const blocks=new Map(); SANCTIONED_POST_SOURCE.forEach(r=>{const k=ssNorm(r.block);if(k&&!blocks.has(k))blocks.set(k,r.block.trim());});
+  [...blocks.entries()].sort((a,c)=>a[1].localeCompare(c[1])).forEach(([key,label])=>b.add(new Option(label,key)));
+  b.dataset.ready="1";
+ }
+ if(p&&p.dataset.ready!=="1"){
+  const posts=new Map(); SANCTIONED_POST_SOURCE.forEach(r=>{const k=ssNorm(r.post);if(k&&!posts.has(k))posts.set(k,r.post.trim());});
+  [...posts.entries()].sort((a,c)=>a[1].localeCompare(c[1])).forEach(([key,label])=>p.add(new Option(label,key)));
+  p.dataset.ready="1";
+ }
+}
+function renderSanctionedStrength(){
+ const body=document.getElementById("sanctionedBody");if(!body)return;ssInitFilters();
+ const block=ssNorm(document.getElementById("sanctionBlockFilter")?.value||"");
+ const inst=ssNorm(document.getElementById("sanctionInstitutionFilter")?.value||"");
+ const post=ssNorm(document.getElementById("sanctionPostFilter")?.value||"");
+ const selectedView=document.getElementById("sanctionViewFilter")?.value||"all";
+ const view=document.body.classList.contains("print-sanctioned-only")?(ssPrintMode==="all"?"all":ssPrintMode):selectedView;
+ let rows=ssBuildRows().filter(g=>(!block||ssNorm(g.block)===block)&&(!inst||ssNorm(g.institution).includes(inst))&&(!post||ssNorm(g.post)===post));
+ if(view==="vacant")rows=rows.filter(g=>g.sourceVacant>0);
+ if(view==="inposition")rows=rows.filter(g=>g.sourceIn>0);
+ if(view==="over")rows=rows.filter(g=>g.over>0);
+ 
+ const allRows=ssBuildRows();
+ const allTotals=allRows.reduce((a,g)=>({sanctioned:a.sanctioned+g.sanctioned,inPosition:a.inPosition+g.sourceIn,vacant:a.vacant+g.sourceVacant}),{sanctioned:0,inPosition:0,vacant:0});
+ const setDash=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+ setDash("dashboardSanctioned",allTotals.sanctioned);setDash("dashboardInPosition",allTotals.inPosition);setDash("dashboardVacancies",allTotals.vacant);
+ if(document.body.classList.contains("print-sanctioned-only")){if(ssPrintMode==="inposition")rows=rows.filter(g=>g.sourceIn>0);else if(ssPrintMode==="vacant")rows=rows.filter(g=>g.sourceVacant>0);}
+ // In the dedicated in-position/vacancy views, keep the opposite count at zero
+ // so a vacancy filter never displays in-position figures (and vice versa).
+ const totals=rows.reduce((a,g)=>({sanctioned:a.sanctioned+(view==="vacant"||ssPrintMode==="vacant"?g.sourceVacant:view==="all"&&ssPrintMode!=="inposition"?g.sanctioned:g.sourceIn),inPosition:a.inPosition+(view==="vacant"||ssPrintMode==="vacant"?0:g.sourceIn),vacant:a.vacant+(view==="vacant"||ssPrintMode==="vacant"?g.sourceVacant:view==="all"&&ssPrintMode!=="inposition"?g.sourceVacant:0),over:a.over+g.over}),{sanctioned:0,inPosition:0,vacant:0,over:0});
+ document.getElementById("sanctionedStats").innerHTML=[["Sanctioned Posts",totals.sanctioned],["In Position",totals.inPosition],["Vacant",totals.vacant],["Over Sanction",totals.over]].map(x=>`<div class="stat-card"><div class="stat-label">${x[0]}</div><div class="stat-value">${x[1]}</div></div>`).join("");
+ body.innerHTML=rows.map(g=>{const vacancyOnly=view==="vacant"||ssPrintMode==="vacant";const inOnly=view==="inposition"||ssPrintMode==="inposition";const shownSanctioned=vacancyOnly?g.sourceVacant:inOnly?g.sourceIn:g.sanctioned;const shownIn=vacancyOnly?0:g.sourceIn;const shownVac= inOnly?0:g.sourceVacant;return `<tr><td>${esc(g.block)}</td><td>${esc(g.institution)}</td><td>${esc(g.post)}</td><td>${shownSanctioned}</td><td>${shownIn}</td><td>${shownVac}</td><td>${g.over}</td><td>${esc(g.sanctionNos.join("; "))}</td></tr>`;}).join("")||'<tr><td colspan="8">No matching sanctioned positions.</td></tr>';
+ document.getElementById("sanctionedNote").textContent=`Showing ${rows.length} institution/post groups. In-position and vacancy counts are calculated from the imported sanctioned-post data (306 entries). The source-sheet status is not displayed in the portal.`;
+}
+function exportSanctionedCSV(){
+ const rows=ssBuildRows();const headers=["Health Block","Institution","Post/Designation","Sanctioned","In Position","Vacant","Over Sanction","Sanction Order No."];
+ const lines=[headers,...rows.map(g=>[g.block,g.institution,g.post,g.sanctioned,g.inPosition,g.vacant,g.over,g.sanctionNos.join("; ")])];
+ const csv=lines.map(row=>row.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\r\n");
+ const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="Dibrugarh_Institution_Wise_Sanctioned_Strength.csv";a.click();URL.revokeObjectURL(a.href);
+}
+let ssPrintMode="all";
+function openStaffingDashboard(){const b=document.querySelector('[data-module="sanctioned"]');showModule("sanctioned",b);renderSanctionedStrength();document.getElementById("module-sanctioned").scrollIntoView({behavior:"smooth",block:"start"});}
+function openVacancyDashboard(){openStaffingDashboard();const f=document.getElementById("sanctionViewFilter");if(f){f.value="vacant";renderSanctionedStrength();}}
+function printSanctionedReport(mode){
+ ssPrintMode=mode||"all";
+ const title=document.getElementById("sanctionedReportTitle");
+ if(title)title.textContent=ssPrintMode==="inposition"?"Institution-wise In-Position Report":ssPrintMode==="vacant"?"Institution-wise Vacancy Report":"Institution-wise Sanctioned Strength & Vacancy Position";
+ document.body.classList.add("print-sanctioned-only");
+ renderSanctionedStrength();
+ const cleanup=()=>{document.body.classList.remove("print-sanctioned-only");ssPrintMode="all";if(title)title.textContent="Institution-wise Sanctioned Strength & Vacancy Position";renderSanctionedStrength();window.removeEventListener("afterprint",cleanup);};
+ window.addEventListener("afterprint",cleanup);
+ setTimeout(()=>window.print(),100);
+}
+const ssOriginalSave=save;
+save=function(){ssOriginalSave();renderSanctionedStrength();};
+document.addEventListener("DOMContentLoaded",renderSanctionedStrength);
+</script>
+<div class="print-signature-stamp" aria-label="Signing officer designation">Addl. Chief Medical &amp; Health Officer (FW)<br>Dibrugarh</div>
+<script>
+// Place the designation stamp immediately after the last data table of the report being printed.
+// It remains in normal document flow, so it cannot cover report data or force a fixed-position overlay.
+(function(){
+ const stamp=document.querySelector('.print-signature-stamp');
+ if(!stamp)return;
+ const home=stamp.parentNode;
+ const anchor=document.createComment('signature-stamp-home');
+ home.insertBefore(anchor,stamp);
+ function placeStamp(){
+   if(document.body.classList.contains('print-profile-only')){
+     const profile=document.getElementById('profileOutput');
+     if(profile&&profile.children.length){profile.appendChild(stamp);return;}
+   }
+   let target=null;
+   if(document.body.classList.contains('print-sanctioned-only')) target=document.getElementById('module-sanctioned');
+   if(!target) target=document.querySelector('.module-panel.active');
+   if(!target) target=document.querySelector('#registerPanel, #employeeRegister, .container');
+   if(!target){anchor.parentNode.insertBefore(stamp,anchor.nextSibling);return;}
+   const tables=Array.from(target.querySelectorAll('.table-wrap')).filter(el=>!el.closest('.no-print'));
+   const lastTable=tables.length?tables[tables.length-1]:null;
+   if(lastTable) lastTable.insertAdjacentElement('afterend',stamp);
+   else target.appendChild(stamp);
+ }
+ function restoreStamp(){if(anchor.parentNode)anchor.parentNode.insertBefore(stamp,anchor.nextSibling);}
+ window.addEventListener('beforeprint',placeStamp);
+ window.addEventListener('afterprint',restoreStamp);
+})();
+</script>
+</body>
+</html>
